@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Society of Agents：我们也许误解了智能的结构</title>
+<meta name="description" content="也许智能最终仍然是有结构的，只是这个结构不再是僵硬的符号规则，而是每一层都可以被委托的小智能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Society of Agents：我们也许误解了智能的结构">
+<meta property="og:description" content="端到端学习是对的，并不意味着端到端架构也是对的。">
+<meta property="og:image" content="https://fangde.github.io/society-of-agents-zh/images/cover.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root { --paper:#F2EEE3; --sand:#E8E2D3; --ink:#131313; --yellow:#F0C200;
+           --blue:#1D3FA6; --red:#DF3524; --deep:#B3271A; --sub:#6F6A5B; }
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; background:#D8D3C6; color:var(--ink);
+    font-family:'Avenir Next','Futura','Helvetica Neue',-apple-system,
+                'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif; }
+  .wrap { max-width:780px; margin:0 auto; padding:38px 18px 76px; }
+  .hero { padding:0 4px 22px; }
+  .kicker { display:flex; align-items:center; gap:14px; margin:0 0 18px; }
+  .kicker i { width:22px; height:22px; background:var(--ink); display:block; }
+  .kicker span { font-size:12px; font-weight:700; letter-spacing:7px;
+    text-transform:uppercase; color:var(--ink); }
+  /* 标题由下方海报承载，h1 只留给搜索引擎和读屏 */
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+    overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+  .sub { font-size:clamp(15px,2.7vw,17.5px); color:#3B382E; line-height:1.7;
+    margin:0; padding-left:16px; border-left:4px solid var(--yellow); font-weight:600; }
+  .cover { width:100%; height:auto; display:block; border:16px solid var(--ink);
+    border-top-color:var(--ink); margin:26px 0 0; }
+  .card { background:var(--paper); border:2px solid var(--ink); margin-top:26px;
+    padding:32px 30px 40px; }
+  .foot { margin-top:32px; padding:22px 4px 0; border-top:3px solid var(--ink);
+    color:var(--sub); font-size:13px; line-height:1.95; }
+  .foot b { color:var(--ink); font-weight:700; }
+  @media (max-width:560px) {
+    .wrap { padding:22px 12px 58px; }
+    .card { padding:20px 15px 28px; }
+    .cover { border-width:10px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="kicker"><i></i><span>The Society of Agents</span></p>
+      <h1 class="sr-only">The Society of Agents：我们也许误解了智能的结构</h1>
+      <p class="sub">也许智能最终仍然是有结构的，只是这个结构不再是僵硬的符号规则，而是每一层都可以被委托的小智能。</p>
+    </header>
+    <img class="cover" src="images/cover.jpg" alt="The Society of Agents：我们也许误解了智能的结构">
+    <main class="card">
+<section style="font-family: 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 15.5px; color: #3B382E; line-height: 1.78; letter-spacing: 0.01em; padding: 22px 20px; background: #F2EEE3;">
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">AI 领域曾经有一个很著名的思想，叫 <span style="color: #1D3FA6; font-weight: 700;">The Society of Mind</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">Marvin Minsky 认为，人的智能并不是一个完整统一的东西，而是由很多不同的小系统共同组成的。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">后来，深度学习出现了，特别是 GPT 出现以后，我们似乎走到了另一个方向。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大家开始相信：</p>
+<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">智能可以端到端地学出来。</blockquote>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不需要提前规定结构，不需要定义太多模块，也不需要手工写下复杂规则。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">只要模型足够大，数据足够多，训练足够充分，很多能力就会自己出现。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这套思路非常成功。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但我最近越来越觉得，<strong style="color: #DF3524; font-weight: 700;">端到端学习是对的，并不意味着端到端架构也是对的。</strong></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也许，智能最终仍然是有结构的。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">只是这个结构，不再是过去那种僵硬的符号规则。</p>
+<p style="text-align:center;margin:16px 0;"><img src="images/card1.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">1. 一个模型真的应该管所有事情吗？</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">想象一个人走路。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果我们采取一种最极端的“端到端”观点，那么大脑应该控制身体里的每一个细节。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪一块肌肉收缩。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">收缩多少。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么时候放松。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">脚掌哪个位置受力。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">膝盖改变多少角度。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">下一个 10 毫秒又该如何调整。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但生物显然不是这样工作的。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">人走路的时候，根本不会意识到这些东西。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我们只会想：</p>
+<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">往前走。快一点。慢一点。往左边。停下来。</blockquote>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后身体自己完成剩下的事情。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这件事非常重要。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它说明高层智能并不是在控制每一个自由度。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它是在<strong style="color: #DF3524; font-weight: 700;">委托</strong>。</p>
+<p style="text-align:center;margin:16px 0;"><img src="images/card2.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">2. 智能更像管理，而不是操纵</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我越来越喜欢用“委托”来理解智能。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个好的上级不会告诉下级每一步该怎么做。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">他只会说：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你去把这件事做好。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">真正有能力的下级，会自己决定细节。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果一个下级什么都不会，只能机械执行，那么上级就必须不断发出具体指令。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但如果下级本身已经很聪明，上级只需要说一个目标。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">AI 也可能是一样。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">未来一个高级 AI 不应该控制每一个细节。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它应该把任务交给另一个同样有能力的 AI。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #E8E2D3; color: #131313; padding: 2px 8px; border-radius: 0; font-weight: 700; border-bottom: 2px solid #131313;">上层负责目标。</span></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #E8E2D3; color: #131313; padding: 2px 8px; border-radius: 0; font-weight: 700; border-bottom: 2px solid #131313;">下层负责实现。</span></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这其实已经在今天发生了。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我可以让 GPT 或 Claude 先理解我的意思。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后它帮我写一个 prompt。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个 prompt 交给视频模型。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">视频模型生成视频。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">或者交给音乐模型。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">音乐模型生成音乐。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这里并不是一个模型包办一切。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是 <span style="color: #1D3FA6; font-weight: 700;">不同的模型，各自在自己最擅长的空间里工作</span>。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">3. 为什么这件事在机器人里更明显</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">机器人特别能说明这个问题。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如让一个机器人抓一个苹果。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一种思路是：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">让一个大模型直接控制所有关节。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">肩膀转多少。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">肘部多少。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手腕多少。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每根手指怎么动。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每个关节每一时刻输出多少力矩。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">理论上当然可以这样做。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但另一种办法是：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">上层只说：</p>
+<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">抓住那个苹果。</blockquote>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后底层的抓取系统自己完成动作。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">再往下，手指控制器自己决定如何调整。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果发现物体在滑，就加一点力。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果发现物体比想象中重，就重新调整姿态。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果接触位置不对，就稍微修正。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个过程中，高层 <span style="background: #DF3524; color: #F2EEE3; padding: 2px 6px; border-radius: 0; font-weight: 700;">根本不需要知道每一根手指具体发生了什么</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这才更像真正的智能系统。</p>
+<p style="text-align:center;margin:16px 0;"><img src="images/card3.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">4. 身体本身就是一个分层的智能系统</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">其实生物早就这样做了。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如心跳。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">心脏必须不停工作。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果每一下心跳都要由大脑主动决定，那将是一件非常荒谬的事情。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">心脏自己有节律。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">神经系统只负责调节。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">快一点。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">慢一点。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">紧张时提高输出。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">休息时降低输出。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也就是说，底层系统本身就有很强的自主性。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大脑不是在逐拍控制它。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大脑是在<strong style="color: #DF3524; font-weight: 700;">调节</strong>它。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">走路也是一样。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">脊髓、脑干、小脑和各种局部回路已经承担了大量工作。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">上层系统更多是在说：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">去哪。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">多快。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">注意什么。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而不是控制每一块肌肉。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，真正的智能结构也许不是：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">中央大脑 → 被动执行器</strong></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #E8E2D3; color: #131313; padding: 2px 8px; border-radius: 0; font-weight: 700; border-bottom: 2px solid #131313;">一个智能系统 → 另一个智能系统 → 再一个智能系统</span></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每一层都可以自己解决问题。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">5. 分层，其实是一种信息压缩</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这件事从物理上也很合理。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果人体每一块肌肉都要跟大脑直接交换大量信号，那么整个系统的布线会变得极其复杂。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但如果局部系统先把一大堆自由度压缩掉，事情就简单很多。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如“走路”。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个完整的步态可能涉及几十块肌肉、很多关节和连续的动态变化。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但对高层来说，可能只需要几个参数：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">方向。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">速度。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">步幅。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">停还是走。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">于是，一个高维问题被压缩成一个低维问题。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我觉得这个观点对 AI 很重要。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">一个好的底层 Agent，本质上就是一个压缩器。</strong></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它把复杂的执行空间，压缩成一个很小的控制接口。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">上层不再需要处理所有细节。</p>
+<p style="text-align:center;margin:16px 0;"><img src="images/card4.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">6. prompt 可能就是未来智能之间的接口</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这也是为什么我觉得 prompt 这件事很有意思。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">prompt 看起来很粗糙。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">几句话。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">几个关键词。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个模糊的要求。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但它却可以控制一个极其复杂的模型。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如我对音乐模型说：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">悲伤一点。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">像夜晚。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">慢一点。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">弦乐为主。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有一种远去的感觉。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这些词并没有定义每一个音符。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更没有定义最终声音波形中的每一个采样点。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但模型知道该怎么办。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">为什么？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">因为复杂性已经在模型内部了。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">prompt 只是在调节它。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，未来不同智能系统之间的接口，也许不是精确的数字命令。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是更接近一种 <span style="background: #1D3FA6; color: #F2EEE3; padding: 2px 6px; border-radius: 0; font-weight: 700;">语义条件</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">甚至可以说是一种高级 prompt。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">7. 一个子 Agent，本身也应该是“大模型”</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">过去我们讲模块化，往往容易想到：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个视觉模块。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个路径规划模块。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个控制模块。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后大家像传统软件一样，通过固定 API 通信。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但我觉得未来不是这样。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">未来的底层模块，本身可能也是一个很复杂的大模型。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个音乐 Agent，不是一个简单函数。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它可能已经学习了海量音乐。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个操作 Agent，也不是几个规则。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它可能在仿真和真实世界里学习了数百万次抓取和操作。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个步态 Agent，也可能包含大量关于身体动力学、平衡和地形适应的知识。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，<span style="background: #F0C200; color: #131313; padding: 2px 6px; border-radius: 0; font-weight: 700;">模块化并不等于简单化</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">相反：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">每一个模块都可以很复杂。</strong></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">整个系统的结构来自这些复杂智能之间的分工，<span style="background: #DF3524; color: #F2EEE3; padding: 2px 6px; border-radius: 0; font-weight: 700;">而不是来自把每个模块做得很笨</span>。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">8. 为什么接口可以模糊？</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">传统软件喜欢精确接口。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">输入是什么。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">输出是什么。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">格式是什么。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">类型是什么。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">全部定义清楚。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但智能之间也许不需要这么精确。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">原因很简单：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">接收方自己会理解。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如你告诉一个人：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">“去那边看看。”</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这句话其实非常不精确。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">多远？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪条路径？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">先迈哪只脚？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">避开哪些障碍？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">怎么转身？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">都没说。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但人能完成。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">因为听话的人本身也是一个智能系统。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，一个很有意思的原则是：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">接收方越聪明，接口就可以越简单。</strong></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这和传统工程几乎相反。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">传统工程靠精确协议保证可靠。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">智能系统则可能靠“双方都足够聪明”来允许模糊通信。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">9. 视觉为什么可以慢，触觉为什么必须快</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">还有一个问题，是实时性。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">视觉往往看到的是远处。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">远处有一个人。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有一张桌子。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有一个苹果。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这些东西还没有碰到你。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以视觉允许一定延迟。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你有时间判断。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有时间预测。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有时间规划。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但是触觉不一样。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">当东西已经碰到你时，时间尺度立刻变了。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手里的杯子开始滑。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">脚踩到不平的地方。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">身体突然失去平衡。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这些事情 <span style="color: #DF3524; font-weight: 700;">不能等一个大型模型慢慢推理</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">必须快速反应。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以真正合理的系统，天然会出现不同时间尺度。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">高层可以慢。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #F0C200; color: #131313; padding: 2px 6px; border-radius: 0; font-weight: 700;">底层必须快</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这也是为什么运动过程中完全依赖视觉是不合理的。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">人可以闭眼走路。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">人可以只靠脚底和身体感觉调整姿态。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">很多时候，我们甚至是在意识还没来得及反应之前，身体已经完成了调整。</p>
+<p style="text-align:center;margin:16px 0;"><img src="images/card5.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">10. 视觉不是精确控制，而是提前给一个猜测</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如伸手去拿苹果。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">视觉给你的其实未必是一个精确答案。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它可能只是说：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">苹果大概在那里。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">距离大概这么远。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大小大概如此。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个估计可以是模糊的。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但有总比没有好。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">运动系统可以提前准备。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手先伸过去。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手指先张开。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">身体提前移动。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">真正碰到苹果以后，触觉开始接管。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这时候你会迅速知道：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它比想象中重。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">表面有点滑。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大小不完全一样。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">于是手自动调整。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这是一种非常漂亮的协作。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #1D3FA6; font-weight: 700;">视觉负责预测</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #1D3FA6; font-weight: 700;">触觉负责修正</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #1D3FA6; font-weight: 700;">本体感觉负责知道身体自己在哪里</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #1D3FA6; font-weight: 700;">运动系统负责快速闭环</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">并不存在一个中央系统拥有所有最精确的信息。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">11. 练习，其实是在把智能下沉</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这也解释了为什么人需要练习。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">刚开始学一个动作时，你会很用力地想。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如第一次投篮。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你会注意：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手怎么抬。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">腿怎么发力。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手腕怎么压。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">球应该多高。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但是练习很多以后，你不会再想这些事情。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你只看到篮筐。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后投出去。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">人们把这种现象叫“肌肉记忆”。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">严格说，记忆当然不是存在肌肉里。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但这个词很好地表达了一个事实：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">控制能力被下沉了。</strong></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个本来需要高层意识参与的任务，逐渐被更低层的运动系统接管。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">于是高层可以把注意力放到更重要的事情上。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这对 AI 很有启发。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">学习的一个重要意义，也许不是让中央模型什么都做得更好。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #B3271A; font-weight: 700;">而是让越来越多能力成为可以被委托的 primitive</span>。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">12. skill 本身可以理解成一个流形</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我觉得还可以再往前走一步。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个子 Agent 的能力，可以理解成一个“流形”。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如声音空间非常大。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">任意噪声都属于声音。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但音乐只是其中<span style="color: #B3271A; font-weight: 700;">非常小的一部分</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也就是说，音乐不是整个声音空间。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它是声音空间中的一个高度结构化子空间。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个音乐模型学到的，其实就是：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么样的声音像音乐。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么样的节奏合理。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么样的旋律具有连续性。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么样的和声属于某种风格。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，它并不是从无限可能中随便输出。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它是在一个已经学会的“音乐空间”里生成。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这也是为什么它的输出通常是合理的。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">13. latent space 就像这个世界内部的坐标</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果把这个子空间理解成一个流形，那么 latent space 就有点像这个流形内部的坐标。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你不需要控制最终的几百万个变量。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你只需要改变几个更有意义的方向。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更悲伤。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更快。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更明亮。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更古典。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更有力量。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这些东西看起来很抽象。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但它们可能对应 latent space 里某些方向。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以高级 Agent 做的事情，不一定是生成最终结果。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它更像是在告诉底层 Agent：</p>
+<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">你往这个方向走。</blockquote>
+<p style="text-align:center;margin:16px 0;"><img src="images/card6.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">14. 后训练，也许是在重新塑造这个空间</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果这样理解，那么 pretraining 和 post-training 的关系也会变得很有意思。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">预训练做的事情，也许是在学习：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个世界有哪些可能。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些语言是合理的。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些声音是音乐。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些动作是可行的。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些知识和模式经常一起出现。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也就是说，预训练先建立了一个“可能性空间”。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而后训练做的事情是什么？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">可能是在这个空间里重新定义：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么更好。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么更差。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么值得靠近。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么应该远离。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么行为更符合人的偏好。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">从几何上讲，我喜欢把它理解成：</p>
+<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">pretraining 学习 manifold，post-training 设计 metric。</blockquote>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">预训练先创造空间。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">后训练再改变这个空间里的地形。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些方向变得容易走。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些地方变成高代价区域。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些状态变得更吸引模型。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这当然是一个抽象比喻。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但我觉得它很好地解释了为什么后训练并不是重新发明模型的全部能力，而更多是在重新组织这些能力。</p>
+<p style="text-align:center;margin:16px 0;"><img src="images/card7.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">15. Agent 之间也需要一个小小的翻译器</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">还有一个问题：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不同 Agent 的 latent space 不一样怎么办？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">其实没关系。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #1D3FA6; color: #F2EEE3; padding: 2px 6px; border-radius: 0; font-weight: 700;">我们不需要让所有 Agent 内部使用同一种语言</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">中间可以放一个很小的 bridge network。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">或者一个 adapter。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">或者一个 head。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它负责翻译。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个视觉 Agent 的输出，转换成运动 Agent 能理解的 condition。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个语言 Agent 的语义表示，转换成音乐 Agent 能理解的风格条件。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个 bridge 甚至可以单独 post-train。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">于是我们不再要求所有系统共享一个大脑。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">只需要让它们学会沟通。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我觉得这反而更接近真正的智能。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">16. 所以，The Society of Mind 可能并没有错</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">回到最开始。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也许 Minsky 的核心判断并没有错。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">智能确实可能是一个 society。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">只是当时我们把这个 society 想得太像传统软件。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个规则。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个模块。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个符号。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个显式接口。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #B3271A; font-weight: 700;">生命真正实现 intelligence society 的方式，可能更模糊，也更强大</span>。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每一个子系统都不是规则。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是一个自适应模型。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每一个模块都不是简单程序。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是一个拥有自己经验和表示空间的小智能。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它们之间也不是靠绝对精确的协议连接。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是靠意图、条件、预测和不断学习出来的接口合作。</p>
+<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
+<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">17. 我真正感兴趣的问题</h2>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，我现在越来越觉得，AI 下一步最有意思的问题，也许不是：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">我们还能把一个模型做多大？</strong></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">智能到底应该放在哪里？</strong></p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些事情应该由高层做？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些事情应该被下放？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">底层应该拥有多大的自主权？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">两个 Agent 之间最少需要交流多少信息？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么应该成为 primitive？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么应该由 prompt 调节？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么需要高速闭环？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么可以慢慢规划？</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果这些问题想清楚，我们得到的也许就不再只是一个更大的模型。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是一种新的智能架构。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不是一个大脑控制一切。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是一群智能彼此协作。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不是 central control。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是 adaptive delegation。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不是一个无所不能的模型。</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是：</p>
+<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">The Society of Agents.</strong></p>
+<p style="text-align:center;margin:16px 0;"><img src="images/card8.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
+</section>
+    </main>
+    <footer class="foot">
+      <b>作者</b>：飞哥 · 公众号「刷屏AI」<br>
+      <b>排版</b>：wechat-publisher · kandinsky 主题（康定斯基设计系统）<br>
+      <b>配图</b>：代码渲染，非 AI 生成插图
+    </footer>
+  </div>
+</body>
+</html>
