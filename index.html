@@ -4,445 +4,1089 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Society of Agents：我们也许误解了智能的结构</title>
-<meta name="description" content="也许智能最终仍然是有结构的，只是这个结构不再是僵硬的符号规则，而是每一层都可以被委托的小智能。">
+<meta name="description" content="本文为中文版；英文版是独立并行的另一篇。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="The Society of Agents：我们也许误解了智能的结构">
-<meta property="og:description" content="端到端学习是对的，并不意味着端到端架构也是对的。">
-<meta property="og:image" content="https://fangde.github.io/society-of-agents-zh/images/cover.jpg">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:description" content="本文为中文版；英文版是独立并行的另一篇。">
+<link rel="stylesheet" href="katex/katex.min.css">
 <style>
-  :root { --paper:#F2EEE3; --sand:#E8E2D3; --ink:#131313; --yellow:#F0C200;
-           --blue:#1D3FA6; --red:#DF3524; --deep:#B3271A; --sub:#6F6A5B; }
-  * { box-sizing:border-box; }
-  html { -webkit-text-size-adjust:100%; }
-  body { margin:0; background:#D8D3C6; color:var(--ink);
-    font-family:'Avenir Next','Futura','Helvetica Neue',-apple-system,
-                'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif; }
-  .wrap { max-width:780px; margin:0 auto; padding:38px 18px 76px; }
-  .hero { padding:0 4px 22px; }
-  .kicker { display:flex; align-items:center; gap:14px; margin:0 0 18px; }
-  .kicker i { width:22px; height:22px; background:var(--ink); display:block; }
-  .kicker span { font-size:12px; font-weight:700; letter-spacing:7px;
-    text-transform:uppercase; color:var(--ink); }
-  /* 标题由下方海报承载，h1 只留给搜索引擎和读屏 */
-  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-    overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
-  .sub { font-size:clamp(15px,2.7vw,17.5px); color:#3B382E; line-height:1.7;
-    margin:0; padding-left:16px; border-left:4px solid var(--yellow); font-weight:600; }
-  .cover { width:100%; height:auto; display:block; border:16px solid var(--ink);
-    border-top-color:var(--ink); margin:26px 0 0; }
-  .card { background:var(--paper); border:2px solid var(--ink); margin-top:26px;
-    padding:32px 30px 40px; }
-  .foot { margin-top:32px; padding:22px 4px 0; border-top:3px solid var(--ink);
-    color:var(--sub); font-size:13px; line-height:1.95; }
-  .foot b { color:var(--ink); font-weight:700; }
-  @media (max-width:560px) {
-    .wrap { padding:22px 12px 58px; }
-    .card { padding:20px 15px 28px; }
-    .cover { border-width:10px; }
-  }
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:#DCD5C4;color:#131313;font-family:'Songti SC','Noto Serif CJK SC','Noto Serif SC','Source Han Serif SC','PingFang SC',serif;
+     font-size:17px;line-height:1.85;letter-spacing:.01em}
+.page{max-width:820px;margin:0 auto;padding:40px 20px 90px}
+.kicker{display:flex;align-items:center;gap:12px;font-size:11.5px;font-weight:700;
+        letter-spacing:2.6px;text-transform:uppercase;color:#1D3FA6;margin:0 0 20px}
+.kicker i{display:block;width:26px;height:2px;background:#1D3FA6}
+h1.title{font-size:clamp(27px,4.6vw,42px);line-height:1.24;margin:0 0 12px;
+         font-weight:700;letter-spacing:-.01em;color:#131313}
+.subtitle{font-size:clamp(14px,2.3vw,16.5px);color:#6F6A5B;margin:0 0 26px;line-height:1.7}
+.meta{font-size:12.5px;color:#6F6A5B;letter-spacing:.4px;border-top:1px solid #D3CAB6;
+      padding-top:14px;margin:0 0 30px;display:flex;flex-wrap:wrap;gap:8px 20px}
+.toc{background:#F2EEE3;border:1px solid #D3CAB6;padding:22px 26px;margin:0 0 44px}
+.toc h2{font-size:12px;letter-spacing:2.4px;text-transform:uppercase;color:#1D3FA6;
+        margin:0 0 16px;font-weight:700;border:0;padding:0}
+.toc ol{list-style:none;margin:0;padding:0;counter-reset:none}
+.toc>ol>li{margin:0 0 6px}
+.toc a{color:#131313;text-decoration:none;border-bottom:1px solid transparent}
+.toc a:hover{border-bottom-color:#1D3FA6}
+.toc .ch{font-weight:700;font-size:15.5px}
+.toc ul{list-style:none;margin:6px 0 14px;padding:0 0 0 18px;
+        border-left:1px solid #D3CAB6}
+.toc ul li{margin:3px 0}
+.toc ul a{font-size:14.5px;color:#6F6A5B}
+article h1{font-size:clamp(20px,3.2vw,26px);line-height:1.35;margin:58px 0 6px;
+           font-weight:700;color:#131313;padding-bottom:12px;border-bottom:2px solid #1D3FA6}
+article h2{font-size:clamp(16.5px,2.4vw,19px);line-height:1.45;margin:40px 0 4px;
+           font-weight:700;color:#1D3FA6;letter-spacing:.01em}
+article p{margin:15px 0}
+article strong{font-weight:700;color:#131313}
+article em{font-style:italic;color:#5A5648}
+article blockquote{margin:22px 0;padding:14px 22px;background:#E8E2D3;
+                   border-left:3px solid #1D3FA6;color:#3B382E;font-size:16px;
+                   line-height:1.8}
+article blockquote p{margin:8px 0}
+article hr{border:0;height:1px;background:#D3CAB6;margin:44px 0}
+article ol,article ul{margin:16px 0;padding-left:1.5em}
+article li{margin:7px 0}
+article ol.refs,ol.refs{list-style:decimal}
+.mb{margin:24px 0;overflow-x:auto;text-align:center}
+.mi{white-space:nowrap}
+.abstract{background:#F2EEE3;border:1px solid #D3CAB6;border-top:3px solid #1D3FA6;
+          padding:26px 28px;margin:0 0 40px}
+.abstract h2{font-size:12px;letter-spacing:2.4px;text-transform:uppercase;color:#1D3FA6;
+             margin:0 0 14px;font-weight:700}
+.abstract p{margin:13px 0}
+.abstract blockquote{margin:18px 0;padding:12px 20px;background:#E8E2D3;
+                     border-left:3px solid #1D3FA6;color:#3B382E;font-size:15.5px}
+.abstract blockquote p{margin:6px 0}
+.closing{margin:64px 0 10px;text-align:center;padding:38px 20px;border:1px solid #D3CAB6;
+         background:#F2EEE3}
+.closing .h{font-size:clamp(22px,3.6vw,32px);font-weight:700;letter-spacing:.02em;
+            color:#1D3FA6;margin:0 0 14px}
+.closing p{margin:0 auto;max-width:640px;color:#6F6A5B;font-size:16px}
+footer{margin-top:64px;padding-top:22px;border-top:1px solid #D3CAB6;
+       font-size:13px;color:#6F6A5B;line-height:2}
+footer a{color:#1D3FA6;text-decoration:none;border-bottom:1px solid #D3CAB6}
+footer a:hover{border-bottom-color:#1D3FA6}
+.katex{font-size:1.05em}
+@media print{.toc{break-inside:avoid}.page{max-width:none;padding:0}}
+@media (max-width:560px){body{font-size:16px}.page{padding:24px 14px 70px}
+  .toc{padding:18px 16px}article h1{margin-top:44px}}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="hero">
-      <p class="kicker"><i></i><span>The Society of Agents</span></p>
-      <h1 class="sr-only">The Society of Agents：我们也许误解了智能的结构</h1>
-      <p class="sub">也许智能最终仍然是有结构的，只是这个结构不再是僵硬的符号规则，而是每一层都可以被委托的小智能。</p>
-    </header>
-    <img class="cover" src="images/cover.jpg" alt="The Society of Agents：我们也许误解了智能的结构">
-    <main class="card">
-<section style="font-family: 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 15.5px; color: #3B382E; line-height: 1.78; letter-spacing: 0.01em; padding: 22px 20px; background: #F2EEE3;">
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">AI 领域曾经有一个很著名的思想，叫 <span style="color: #1D3FA6; font-weight: 700;">The Society of Mind</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">Marvin Minsky 认为，人的智能并不是一个完整统一的东西，而是由很多不同的小系统共同组成的。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">后来，深度学习出现了，特别是 GPT 出现以后，我们似乎走到了另一个方向。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大家开始相信：</p>
-<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">智能可以端到端地学出来。</blockquote>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不需要提前规定结构，不需要定义太多模块，也不需要手工写下复杂规则。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">只要模型足够大，数据足够多，训练足够充分，很多能力就会自己出现。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这套思路非常成功。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但我最近越来越觉得，<strong style="color: #DF3524; font-weight: 700;">端到端学习是对的，并不意味着端到端架构也是对的。</strong></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也许，智能最终仍然是有结构的。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">只是这个结构，不再是过去那种僵硬的符号规则。</p>
-<p style="text-align:center;margin:16px 0;"><img src="images/card1.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">1. 一个模型真的应该管所有事情吗？</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">想象一个人走路。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果我们采取一种最极端的“端到端”观点，那么大脑应该控制身体里的每一个细节。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪一块肌肉收缩。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">收缩多少。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么时候放松。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">脚掌哪个位置受力。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">膝盖改变多少角度。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">下一个 10 毫秒又该如何调整。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但生物显然不是这样工作的。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">人走路的时候，根本不会意识到这些东西。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我们只会想：</p>
-<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">往前走。快一点。慢一点。往左边。停下来。</blockquote>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后身体自己完成剩下的事情。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这件事非常重要。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它说明高层智能并不是在控制每一个自由度。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它是在<strong style="color: #DF3524; font-weight: 700;">委托</strong>。</p>
-<p style="text-align:center;margin:16px 0;"><img src="images/card2.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">2. 智能更像管理，而不是操纵</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我越来越喜欢用“委托”来理解智能。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个好的上级不会告诉下级每一步该怎么做。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">他只会说：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你去把这件事做好。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">真正有能力的下级，会自己决定细节。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果一个下级什么都不会，只能机械执行，那么上级就必须不断发出具体指令。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但如果下级本身已经很聪明，上级只需要说一个目标。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">AI 也可能是一样。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">未来一个高级 AI 不应该控制每一个细节。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它应该把任务交给另一个同样有能力的 AI。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #E8E2D3; color: #131313; padding: 2px 8px; border-radius: 0; font-weight: 700; border-bottom: 2px solid #131313;">上层负责目标。</span></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #E8E2D3; color: #131313; padding: 2px 8px; border-radius: 0; font-weight: 700; border-bottom: 2px solid #131313;">下层负责实现。</span></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这其实已经在今天发生了。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我可以让 GPT 或 Claude 先理解我的意思。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后它帮我写一个 prompt。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个 prompt 交给视频模型。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">视频模型生成视频。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">或者交给音乐模型。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">音乐模型生成音乐。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这里并不是一个模型包办一切。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是 <span style="color: #1D3FA6; font-weight: 700;">不同的模型，各自在自己最擅长的空间里工作</span>。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">3. 为什么这件事在机器人里更明显</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">机器人特别能说明这个问题。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如让一个机器人抓一个苹果。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一种思路是：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">让一个大模型直接控制所有关节。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">肩膀转多少。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">肘部多少。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手腕多少。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每根手指怎么动。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每个关节每一时刻输出多少力矩。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">理论上当然可以这样做。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但另一种办法是：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">上层只说：</p>
-<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">抓住那个苹果。</blockquote>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后底层的抓取系统自己完成动作。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">再往下，手指控制器自己决定如何调整。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果发现物体在滑，就加一点力。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果发现物体比想象中重，就重新调整姿态。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果接触位置不对，就稍微修正。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个过程中，高层 <span style="background: #DF3524; color: #F2EEE3; padding: 2px 6px; border-radius: 0; font-weight: 700;">根本不需要知道每一根手指具体发生了什么</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这才更像真正的智能系统。</p>
-<p style="text-align:center;margin:16px 0;"><img src="images/card3.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">4. 身体本身就是一个分层的智能系统</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">其实生物早就这样做了。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如心跳。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">心脏必须不停工作。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果每一下心跳都要由大脑主动决定，那将是一件非常荒谬的事情。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">心脏自己有节律。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">神经系统只负责调节。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">快一点。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">慢一点。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">紧张时提高输出。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">休息时降低输出。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也就是说，底层系统本身就有很强的自主性。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大脑不是在逐拍控制它。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大脑是在<strong style="color: #DF3524; font-weight: 700;">调节</strong>它。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">走路也是一样。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">脊髓、脑干、小脑和各种局部回路已经承担了大量工作。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">上层系统更多是在说：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">去哪。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">多快。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">注意什么。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而不是控制每一块肌肉。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，真正的智能结构也许不是：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">中央大脑 → 被动执行器</strong></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #E8E2D3; color: #131313; padding: 2px 8px; border-radius: 0; font-weight: 700; border-bottom: 2px solid #131313;">一个智能系统 → 另一个智能系统 → 再一个智能系统</span></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每一层都可以自己解决问题。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">5. 分层，其实是一种信息压缩</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这件事从物理上也很合理。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果人体每一块肌肉都要跟大脑直接交换大量信号，那么整个系统的布线会变得极其复杂。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但如果局部系统先把一大堆自由度压缩掉，事情就简单很多。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如“走路”。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个完整的步态可能涉及几十块肌肉、很多关节和连续的动态变化。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但对高层来说，可能只需要几个参数：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">方向。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">速度。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">步幅。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">停还是走。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">于是，一个高维问题被压缩成一个低维问题。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我觉得这个观点对 AI 很重要。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">一个好的底层 Agent，本质上就是一个压缩器。</strong></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它把复杂的执行空间，压缩成一个很小的控制接口。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">上层不再需要处理所有细节。</p>
-<p style="text-align:center;margin:16px 0;"><img src="images/card4.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">6. prompt 可能就是未来智能之间的接口</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这也是为什么我觉得 prompt 这件事很有意思。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">prompt 看起来很粗糙。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">几句话。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">几个关键词。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个模糊的要求。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但它却可以控制一个极其复杂的模型。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如我对音乐模型说：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">悲伤一点。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">像夜晚。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">慢一点。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">弦乐为主。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有一种远去的感觉。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这些词并没有定义每一个音符。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更没有定义最终声音波形中的每一个采样点。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但模型知道该怎么办。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">为什么？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">因为复杂性已经在模型内部了。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">prompt 只是在调节它。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，未来不同智能系统之间的接口，也许不是精确的数字命令。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是更接近一种 <span style="background: #1D3FA6; color: #F2EEE3; padding: 2px 6px; border-radius: 0; font-weight: 700;">语义条件</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">甚至可以说是一种高级 prompt。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">7. 一个子 Agent，本身也应该是“大模型”</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">过去我们讲模块化，往往容易想到：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个视觉模块。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个路径规划模块。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个控制模块。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后大家像传统软件一样，通过固定 API 通信。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但我觉得未来不是这样。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">未来的底层模块，本身可能也是一个很复杂的大模型。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个音乐 Agent，不是一个简单函数。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它可能已经学习了海量音乐。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个操作 Agent，也不是几个规则。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它可能在仿真和真实世界里学习了数百万次抓取和操作。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个步态 Agent，也可能包含大量关于身体动力学、平衡和地形适应的知识。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，<span style="background: #F0C200; color: #131313; padding: 2px 6px; border-radius: 0; font-weight: 700;">模块化并不等于简单化</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">相反：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">每一个模块都可以很复杂。</strong></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">整个系统的结构来自这些复杂智能之间的分工，<span style="background: #DF3524; color: #F2EEE3; padding: 2px 6px; border-radius: 0; font-weight: 700;">而不是来自把每个模块做得很笨</span>。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">8. 为什么接口可以模糊？</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">传统软件喜欢精确接口。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">输入是什么。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">输出是什么。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">格式是什么。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">类型是什么。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">全部定义清楚。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但智能之间也许不需要这么精确。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">原因很简单：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">接收方自己会理解。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如你告诉一个人：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">“去那边看看。”</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这句话其实非常不精确。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">多远？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪条路径？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">先迈哪只脚？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">避开哪些障碍？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">怎么转身？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">都没说。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但人能完成。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">因为听话的人本身也是一个智能系统。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，一个很有意思的原则是：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">接收方越聪明，接口就可以越简单。</strong></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这和传统工程几乎相反。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">传统工程靠精确协议保证可靠。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">智能系统则可能靠“双方都足够聪明”来允许模糊通信。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">9. 视觉为什么可以慢，触觉为什么必须快</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">还有一个问题，是实时性。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">视觉往往看到的是远处。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">远处有一个人。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有一张桌子。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有一个苹果。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这些东西还没有碰到你。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以视觉允许一定延迟。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你有时间判断。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有时间预测。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">有时间规划。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但是触觉不一样。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">当东西已经碰到你时，时间尺度立刻变了。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手里的杯子开始滑。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">脚踩到不平的地方。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">身体突然失去平衡。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这些事情 <span style="color: #DF3524; font-weight: 700;">不能等一个大型模型慢慢推理</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">必须快速反应。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以真正合理的系统，天然会出现不同时间尺度。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">高层可以慢。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #F0C200; color: #131313; padding: 2px 6px; border-radius: 0; font-weight: 700;">底层必须快</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这也是为什么运动过程中完全依赖视觉是不合理的。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">人可以闭眼走路。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">人可以只靠脚底和身体感觉调整姿态。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">很多时候，我们甚至是在意识还没来得及反应之前，身体已经完成了调整。</p>
-<p style="text-align:center;margin:16px 0;"><img src="images/card5.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">10. 视觉不是精确控制，而是提前给一个猜测</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如伸手去拿苹果。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">视觉给你的其实未必是一个精确答案。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它可能只是说：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">苹果大概在那里。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">距离大概这么远。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大小大概如此。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个估计可以是模糊的。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但有总比没有好。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">运动系统可以提前准备。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手先伸过去。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手指先张开。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">身体提前移动。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">真正碰到苹果以后，触觉开始接管。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这时候你会迅速知道：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它比想象中重。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">表面有点滑。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">大小不完全一样。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">于是手自动调整。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这是一种非常漂亮的协作。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #1D3FA6; font-weight: 700;">视觉负责预测</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #1D3FA6; font-weight: 700;">触觉负责修正</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #1D3FA6; font-weight: 700;">本体感觉负责知道身体自己在哪里</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #1D3FA6; font-weight: 700;">运动系统负责快速闭环</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">并不存在一个中央系统拥有所有最精确的信息。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">11. 练习，其实是在把智能下沉</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这也解释了为什么人需要练习。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">刚开始学一个动作时，你会很用力地想。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如第一次投篮。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你会注意：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手怎么抬。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">腿怎么发力。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">手腕怎么压。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">球应该多高。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但是练习很多以后，你不会再想这些事情。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你只看到篮筐。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">然后投出去。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">人们把这种现象叫“肌肉记忆”。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">严格说，记忆当然不是存在肌肉里。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但这个词很好地表达了一个事实：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">控制能力被下沉了。</strong></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个本来需要高层意识参与的任务，逐渐被更低层的运动系统接管。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">于是高层可以把注意力放到更重要的事情上。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这对 AI 很有启发。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">学习的一个重要意义，也许不是让中央模型什么都做得更好。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #B3271A; font-weight: 700;">而是让越来越多能力成为可以被委托的 primitive</span>。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">12. skill 本身可以理解成一个流形</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我觉得还可以再往前走一步。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个子 Agent 的能力，可以理解成一个“流形”。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如声音空间非常大。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">任意噪声都属于声音。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但音乐只是其中<span style="color: #B3271A; font-weight: 700;">非常小的一部分</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也就是说，音乐不是整个声音空间。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它是声音空间中的一个高度结构化子空间。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个音乐模型学到的，其实就是：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么样的声音像音乐。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么样的节奏合理。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么样的旋律具有连续性。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么样的和声属于某种风格。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，它并不是从无限可能中随便输出。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它是在一个已经学会的“音乐空间”里生成。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这也是为什么它的输出通常是合理的。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">13. latent space 就像这个世界内部的坐标</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果把这个子空间理解成一个流形，那么 latent space 就有点像这个流形内部的坐标。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你不需要控制最终的几百万个变量。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">你只需要改变几个更有意义的方向。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">比如：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更悲伤。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更快。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更明亮。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更古典。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">更有力量。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这些东西看起来很抽象。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但它们可能对应 latent space 里某些方向。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以高级 Agent 做的事情，不一定是生成最终结果。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它更像是在告诉底层 Agent：</p>
-<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">你往这个方向走。</blockquote>
-<p style="text-align:center;margin:16px 0;"><img src="images/card6.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">14. 后训练，也许是在重新塑造这个空间</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果这样理解，那么 pretraining 和 post-training 的关系也会变得很有意思。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">预训练做的事情，也许是在学习：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个世界有哪些可能。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些语言是合理的。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些声音是音乐。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些动作是可行的。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些知识和模式经常一起出现。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也就是说，预训练先建立了一个“可能性空间”。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而后训练做的事情是什么？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">可能是在这个空间里重新定义：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么更好。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么更差。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么值得靠近。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么应该远离。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么行为更符合人的偏好。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">从几何上讲，我喜欢把它理解成：</p>
-<blockquote style="margin: 24px 0; padding: 16px 20px; background: #F0C200; border-left: 2px solid #131313; color: #131313; font-size: 15px; border-radius: 0; line-height: 1.65; font-weight: 700; letter-spacing: 0;">pretraining 学习 manifold，post-training 设计 metric。</blockquote>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">预训练先创造空间。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">后训练再改变这个空间里的地形。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些方向变得容易走。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些地方变成高代价区域。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些状态变得更吸引模型。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这当然是一个抽象比喻。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">但我觉得它很好地解释了为什么后训练并不是重新发明模型的全部能力，而更多是在重新组织这些能力。</p>
-<p style="text-align:center;margin:16px 0;"><img src="images/card7.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">15. Agent 之间也需要一个小小的翻译器</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">还有一个问题：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不同 Agent 的 latent space 不一样怎么办？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">其实没关系。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="background: #1D3FA6; color: #F2EEE3; padding: 2px 6px; border-radius: 0; font-weight: 700;">我们不需要让所有 Agent 内部使用同一种语言</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">中间可以放一个很小的 bridge network。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">或者一个 adapter。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">或者一个 head。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它负责翻译。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个视觉 Agent 的输出，转换成运动 Agent 能理解的 condition。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个语言 Agent 的语义表示，转换成音乐 Agent 能理解的风格条件。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">这个 bridge 甚至可以单独 post-train。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">于是我们不再要求所有系统共享一个大脑。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">只需要让它们学会沟通。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">我觉得这反而更接近真正的智能。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">16. 所以，The Society of Mind 可能并没有错</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">回到最开始。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">也许 Minsky 的核心判断并没有错。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">智能确实可能是一个 society。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">只是当时我们把这个 society 想得太像传统软件。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个规则。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个模块。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个符号。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">一个显式接口。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><span style="color: #B3271A; font-weight: 700;">生命真正实现 intelligence society 的方式，可能更模糊，也更强大</span>。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每一个子系统都不是规则。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是一个自适应模型。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">每一个模块都不是简单程序。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是一个拥有自己经验和表示空间的小智能。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">它们之间也不是靠绝对精确的协议连接。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是靠意图、条件、预测和不断学习出来的接口合作。</p>
-<p style="text-align: center; color: #131313; letter-spacing: 14px; font-size: 11px; margin: 36px 0; user-select: none;">▲ ■ ●</p>
-<h2 style="font-family: 'Futura', 'Avenir Next', 'Avenir', 'Helvetica Neue', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif; font-size: 18px; font-weight: 700; color: #131313; margin: 40px 0 16px; padding: 12px 16px; background: #E8E2D3; border-left: 4px solid #1D3FA6; border-radius: 0; line-height: 1.28; letter-spacing: -0.01em;">17. 我真正感兴趣的问题</h2>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">所以，我现在越来越觉得，AI 下一步最有意思的问题，也许不是：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">我们还能把一个模型做多大？</strong></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">智能到底应该放在哪里？</strong></p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些事情应该由高层做？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">哪些事情应该被下放？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">底层应该拥有多大的自主权？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">两个 Agent 之间最少需要交流多少信息？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么应该成为 primitive？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么应该由 prompt 调节？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么需要高速闭环？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">什么可以慢慢规划？</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">如果这些问题想清楚，我们得到的也许就不再只是一个更大的模型。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是一种新的智能架构。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不是一个大脑控制一切。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是一群智能彼此协作。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不是 central control。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是 adaptive delegation。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">不是一个无所不能的模型。</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;">而是：</p>
-<p style="margin: 16px 0; text-indent: 0; text-align: justify; color: #3B382E; line-height: 1.78;"><strong style="color: #DF3524; font-weight: 700;">The Society of Agents.</strong></p>
-<p style="text-align:center;margin:16px 0;"><img src="images/card8.jpg" alt="" style="max-width: 100%; height: auto; border-radius: 0; margin: 26px auto; display: block; border: 2px solid #131313; background: #F2EEE3;"/></p>
-</section>
-    </main>
-    <footer class="foot">
-      <b>作者</b>：飞哥 · 公众号「刷屏AI」<br>
-      <b>排版</b>：wechat-publisher · kandinsky 主题（康定斯基设计系统）<br>
-      <b>配图</b>：代码渲染，非 AI 生成插图
-    </footer>
-  </div>
+<div class="page">
+  <header>
+    <p class="kicker"><i></i>研究笔记</p>
+    <h1 class="title">The Society of Agents：我们也许误解了智能的结构</h1>
+    <p class="meta"><span>关于学出来的智能应该怎样被架构</span></p>
+  </header>
+  <nav class="toc">
+    <h2>目录</h2>
+    <ol><li><a class="ch" href="#s1">一、Structured Intelligence 还是 End-to-End Intelligence？</a><ul><li><a href="#s2">1.1 从 <em>The Society of Mind</em> 到 Deep Learning</a></li><li><a href="#s3">1.2 World Intelligence 与 Body Intelligence</a></li></ul></li><li><a class="ch" href="#s4">二、Engineering Issue：为什么我们要怀疑现在的 VLM/VLA 架构？</a><ul><li><a href="#s5">2.1 Vision 的计算负担本来就很重</a></li><li><a href="#s6">2.2 为什么 VLM 一定要 Real-Time？</a></li><li><a href="#s7">2.3 Vision Robustness 的 Paradox</a></li><li><a href="#s8">2.4 Training 也许也拆错了</a></li><li><a href="#s9">2.5 Motor Skill 自己就有 Data</a></li></ul></li><li><a class="ch" href="#s10">三、Biological Perspective：为什么 Intelligence 天然可能是 Asynchronous 的？</a><ul><li><a href="#s11">3.1 Biology 也服从同样的 Physics</a></li><li><a href="#s12">3.2 一个新的 Developmental Clue：Brain 本身也许就是 Composite 的</a></li><li><a href="#s13">3.3 Vision 是 Far-Field and Predictive</a></li><li><a href="#s14">3.4 Force 和 Proprioception 是 Near-Field and Corrective</a></li><li><a href="#s15">3.5 Spatial Bandwidth 与 Temporal Bandwidth</a></li><li><a href="#s16">3.6 World Intelligence 与 Body Intelligence</a></li><li><a href="#s17">3.7 Body Intelligence 并不简单</a></li><li><a href="#s18">3.8 不是 Smart Brain 控制 Dumb Body</a></li><li><a href="#s19">3.9 Local Motor Circuit 给出的 Biology Clue</a></li></ul></li><li><a class="ch" href="#s20">四、这种 Biological Design 对 Engineering 有什么 Advantage？</a><ul><li><a href="#s21">4.1 Multi-Rate、Asynchronous Architecture</a></li><li><a href="#s22">4.2 Motor Primitive 不是 Trajectory，而是 Agent</a></li><li><a href="#s23">4.3 Hierarchy 是 Information Compression</a></li><li><a href="#s24">4.4 Skill 可以理解成 Learned Manifold</a></li><li><a href="#s25">4.5 Metric 是一种 Indexing Geometry</a></li><li><a href="#s26">4.6 Agent 之间需要的是 Learned Bridge</a></li></ul></li><li><a class="ch" href="#s27">五、Current AI Trend 与这个想法是什么关系？</a><ul><li><a href="#s28">5.1 VLM / VLA</a></li><li><a href="#s29">5.2 World Model</a></li><li><a href="#s30">5.3 其实很多 Pieces 已经存在</a></li><li><a href="#s31">5.4 Society of Agents</a></li></ul></li><li><a class="ch" href="#s32">结论</a></li><li><a class="ch" href="#s33">参考文献</a></li></ol>
+  </nav>
+  <div class="abstract"><h2>摘要</h2>
+<p>现代 AI 有一个非常强大的思想：</p>
+<p><strong>智能可以端到端地学出来。</strong></p>
+<p>大语言模型的成功，很大程度上证明了这一点。</p>
+<p>我们不需要像过去 symbolic AI 那样，提前把 intelligence 拆成大量人工设计的规则和模块。只要模型足够大、数据足够丰富，很多 representation、knowledge、reasoning 和 planning 能力可以自己从训练中出现。</p>
+<p>但这里可能混淆了两个问题。</p>
+<p><strong>End-to-end learning 是不是对的？</strong></p>
+<p>和：</p>
+<p><strong>Intelligence 的 architecture 是不是也应该 end-to-end？</strong></p>
+<p>这两件事并不是一回事。</p>
+<p>机器人尤其让这个问题重新变得重要。</p>
+<p>Vision、prediction、semantic reasoning、motor control、contact sensing 和 body regulation 面对的是完全不同的 information structure，也运行在完全不同的 timescale 上。</p>
+<p>一个很大的视觉或 world model 可以花时间理解环境和规划未来。</p>
+<p>但一个 local motor controller 可能必须每秒运行几十次甚至几百次，持续保持身体不摔倒。</p>
+<p>最近的 developmental neuroscience 又给出了一个很有意思的新线索：</p>
+<p><strong>连我们通常认为是一个 organ 的 brain，本身都可能不是从一个统一 progenitor 发育出来的。</strong></p>
+<p>2026 年 <em>Nature Neuroscience</em> 的工作发现，forebrain/midbrain 与 hindbrain 在 gastrulation 阶段就来自两条并行、lineage-restricted 的 neural progenitor path。[15]</p>
+<p>这让一个问题更加值得重新讨论：</p>
+<blockquote>
+<p><strong>也许 intelligence 本来就更适合由多个相对 autonomous 的 learned systems 构成，每个 system 在适合自己的 spatial scale、temporal scale 和 information space 上工作。</strong></p>
+</blockquote>
+<p>High-level intelligence 不需要 micromanage 每一个 joint。</p>
+<p>它可以提供：</p>
+<p>goal。</p>
+<p>condition。</p>
+<p>prediction。</p>
+<p>constraint。</p>
+<p>priority。</p>
+<p>而 lower-level intelligence 保留 execution 的自主权。</p>
+<p>所以真正的问题也许已经不是：</p>
+<blockquote>
+<p>Symbolic modularity 还是 end-to-end neural network？</p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p><strong>Learned intelligence 本身究竟应该怎样 architect？</strong></p>
+</blockquote>
+<hr />
+</div>
+  <article>
+<h1 id="s1">一、Structured Intelligence 还是 End-to-End Intelligence？</h1>
+<h2 id="s2">1.1 从 <em>The Society of Mind</em> 到 Deep Learning</h2>
+<p>Minsky 的 <em>The Society of Mind</em> 提出了一个非常有影响力的观点：</p>
+<p>人的 intelligence 可能并不是一个完整统一的东西，而是由很多不同的 cognitive process 共同形成。</p>
+<p>在过去，这个想法往往和 symbolic AI 联系在一起。</p>
+<p>我们人为规定：</p>
+<p>哪个 module 负责 perception。</p>
+<p>哪个负责 planning。</p>
+<p>哪个负责 memory。</p>
+<p>哪个负责 reasoning。</p>
+<p>不同 module 之间通过明确的 interface 连接。</p>
+<p>Deep learning 几乎走向了相反的方向。</p>
+<p>我们不再提前定义 intelligence 的内部 representation。</p>
+<p>而是让模型直接从 data 中学习。</p>
+<p>GPT 把这个思想推进得非常远。</p>
+<p>Language understanding、knowledge、reasoning、planning、style、abstraction，甚至 tool use，都可以共存在一个巨大的 learned model 里。</p>
+<p>于是很容易产生一个结论：</p>
+<p>也许 intelligence 根本不需要 structure。</p>
+<p>也许：</p>
+<p><strong>scale itself is the architecture。</strong></p>
+<p>但这里实际上混淆了两个不同的判断。</p>
+<p>第一个是：</p>
+<blockquote>
+<p><strong>Intelligence 内部的 representation 应该通过 learning 获得，而不是人工规定。</strong></p>
+</blockquote>
+<p>第二个是：</p>
+<blockquote>
+<p><strong>所有 intelligent function 都应该存在于同一个 undifferentiated controller 里。</strong></p>
+</blockquote>
+<p>第一个成立，并不自动意味着第二个成立。</p>
+<p>一个 system 完全可以是 end-to-end learned 的，同时仍然具有清晰的 internal organization。</p>
+<p>只是里面的 module 不再是人工编写的 symbolic rule。</p>
+<p>每一个 module 本身都可以是一个 powerful learned model。</p>
+<p>所以真正的问题不是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">symbolic modularity</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">vs.</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">deep learning</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>而可能是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">one learned intelligence</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">vs.</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">a society of learned intelligences</span></span><span class="mord">.</span></span></span></span></span></div>
+<h2 id="s3">1.2 World Intelligence 与 Body Intelligence</h2>
+<p>对于 embodied intelligence，我觉得一个非常重要的划分，是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.5689em;vertical-align:-0.5344em;"></span><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0344em;"><span style="top:-3.5689em;"><span class="pstrut" style="height:3.5689em;"></span><span class="boxpad"><span class="mord"><span class="mord"><span class="mord text"><span class="mord">World Intelligence</span></span></span></span></span></span><span style="top:-3.0344em;"><span class="pstrut" style="height:3.5689em;"></span><span class="stretchy fbox" style="height:1.5689em;border-style:solid;border-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5344em;"><span></span></span></span></span></span></span></span></span></span></div>
+<p>和：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.5689em;vertical-align:-0.5344em;"></span><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0344em;"><span style="top:-3.5689em;"><span class="pstrut" style="height:3.5689em;"></span><span class="boxpad"><span class="mord"><span class="mord"><span class="mord text"><span class="mord">Body Intelligence</span></span></span></span></span></span><span style="top:-3.0344em;"><span class="pstrut" style="height:3.5689em;"></span><span class="stretchy fbox" style="height:1.5689em;border-style:solid;border-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5344em;"><span></span></span></span></span></span><span class="mord">.</span></span></span></span></span></div>
+<p>World Intelligence 主要处理：</p>
+<p>environment。</p>
+<p>objects。</p>
+<p>other animals。</p>
+<p>prey。</p>
+<p>predators。</p>
+<p>other people。</p>
+<p>goals。</p>
+<p>future possibilities。</p>
+<p>planning。</p>
+<p>它问：</p>
+<blockquote>
+<p>世界里发生了什么？</p>
+<p>接下来可能发生什么？</p>
+<p>我应该怎样处理这些事情？</p>
+</blockquote>
+<p>Body Intelligence 处理的是另一组问题：</p>
+<p>posture。</p>
+<p>balance。</p>
+<p>joint state。</p>
+<p>contact。</p>
+<p>force。</p>
+<p>locomotion。</p>
+<p>breathing。</p>
+<p>circulation。</p>
+<p>internal regulation。</p>
+<p>fast execution。</p>
+<p>它问：</p>
+<blockquote>
+<p>我的身体现在发生了什么？</p>
+<p>怎样让身体保持稳定和正常运行？</p>
+<p>怎样真正把 high-level 要求的动作做出来？</p>
+</blockquote>
+<p>这里的 “World Intelligence” 大致对应我们说的：</p>
+<p>cortex。</p>
+<p>conscious perception。</p>
+<p>explicit reasoning。</p>
+<p>prediction。</p>
+<p>planning。</p>
+<p>而这里的 “Body Intelligence” 并不是狭义 spinal cord。</p>
+<p>它更广泛地包括：</p>
+<p>brainstem。</p>
+<p>spinal cord。</p>
+<p>cerebellar circuits。</p>
+<p>autonomic nervous system。</p>
+<p>local sensorimotor loops。</p>
+<p>以及 peripheral regulatory systems。</p>
+<p>这是一个 architecture 上的 shorthand，而不是严格 anatomical boundary。</p>
+<p>最重要的一点是：</p>
+<blockquote>
+<p><strong>Body Intelligence 不是一个 passive actuator layer。</strong></p>
+</blockquote>
+<p>它自己有 sensing。</p>
+<p>有 state。</p>
+<p>有 feedback。</p>
+<p>有 adaptation。</p>
+<p>有 regulation。</p>
+<p>有 autonomous control。</p>
+<p>身体并不只是被 intelligence 控制。</p>
+<p><strong>身体本身就包含 intelligence。</strong></p>
+<hr /><h1 id="s4">二、Engineering Issue：为什么我们要怀疑现在的 VLM/VLA 架构？</h1>
+<p>真正让这个问题变得现实的，是 robotics。</p>
+<h2 id="s5">2.1 Vision 的计算负担本来就很重</h2>
+<p>一个 state-based locomotion policy，可以非常小。</p>
+<p>它可能只接受：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6679em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.0556em;"><span class="mord">˙</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1944em;"><span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">IMU</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">contact</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord">force</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">...</span></span></span></span></span></div>
+<p>这些变量已经非常接近 control problem 本身。</p>
+<p>几层 MLP，就有可能实现：</p>
+<p>walking。</p>
+<p>running。</p>
+<p>disturbance recovery。</p>
+<p>stable gait。</p>
+<p>但 vision 完全不同。</p>
+<p>Vision 从 pixel 开始。</p>
+<p>它还需要推断：</p>
+<p>object。</p>
+<p>geometry。</p>
+<p>depth。</p>
+<p>motion。</p>
+<p>semantics。</p>
+<p>context。</p>
+<p>甚至 intent。</p>
+<p>所以现代 vision foundation model 很自然会变得非常大。</p>
+<p>可以有数千万、数亿，甚至更多 parameters。</p>
+<p>真正重要的不是某一个具体 parameter count。</p>
+<p>而是两边的问题本身就不一样。</p>
+<p>Motor policy 接受到的是：</p>
+<p><strong>已经结构化、已经和 dynamics 高度相关的信息。</strong></p>
+<p>Vision 面对的是：</p>
+<p><strong>巨大的 raw spatial signal。</strong></p>
+<p>于是一个很自然的 architecture 是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">large visual system</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">small condition</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">small fast motor policy</span></span><span class="mord">.</span></span></span></span></span></div>
+<h2 id="s6">2.2 为什么 VLM 一定要 Real-Time？</h2>
+<p>如果整个 VLM 或 VLA 必须以 motor-control frequency 运行，engineering 上很快就会遇到问题。</p>
+<p>一种直觉是：</p>
+<p>VLM 太慢。</p>
+<p>那就换更快 chip。</p>
+<p>更大的 GPU。</p>
+<p>更强的 robot computer。</p>
+<p>但我们想问的是另一个问题：</p>
+<blockquote>
+<p><strong>为什么 VLM 一定要存在于每一个 motor-control cycle 中？</strong></p>
+</blockquote>
+<p>完全可以采用：</p>
+<p><strong>asynchronous multi-rate architecture。</strong></p>
+<p>比如：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3581em;vertical-align:-0.6081em;"></span><span class="mord text"><span class="mord">Vision/VLM</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.622em;"><span style="top:-3.322em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight x-arrow-pad"><span class="mord mtight"></span></span></span><span class="svg-align" style="top:-2.689em;"><span class="pstrut" style="height:2.7em;"></span><span class="hide-tail" style="height:0.522em;min-width:1.469em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.522em" viewBox="0 0 400000 522" preserveAspectRatio="xMaxYMin slice"><path d="M0 241v40h399891c-47.3 35.3-84 78-110 128
+-16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20
+ 11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7
+ 39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85
+-40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5
+-12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67
+ 151.7 139 205zm0 0v40h399900v-40z"/></svg></span></span><span style="top:-2.0919em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight x-arrow-pad"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">few Hz</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6081em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">goal / condition / trajectory</span></span></span></span></span></span></div>
+<p>而：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3025em;vertical-align:-0.6081em;"></span><span class="mord text"><span class="mord">Motor Policy</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel x-arrow"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.622em;"><span style="top:-3.322em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight x-arrow-pad"><span class="mord mtight"></span></span></span><span class="svg-align" style="top:-2.689em;"><span class="pstrut" style="height:2.7em;"></span><span class="hide-tail" style="height:0.522em;min-width:1.469em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="0.522em" viewBox="0 0 400000 522" preserveAspectRatio="xMaxYMin slice"><path d="M0 241v40h399891c-47.3 35.3-84 78-110 128
+-16.7 32-27.7 63.7-33 95 0 1.3-.2 2.7-.5 4-.3 1.3-.5 2.3-.5 3 0 7.3 6.7 11 20
+ 11 8 0 13.2-.8 15.5-2.5 2.3-1.7 4.2-5.5 5.5-11.5 2-13.3 5.7-27 11-41 14.7-44.7
+ 39-84.5 73-119.5s73.7-60.2 119-75.5c6-2 9-5.7 9-11s-3-9-9-11c-45.3-15.3-85
+-40.5-119-75.5s-58.3-74.8-73-119.5c-4.7-14-8.3-27.3-11-40-1.3-6.7-3.2-10.8-5.5
+-12.5-2.3-1.7-7.5-2.5-15.5-2.5-14 0-21 3.7-21 11 0 2 2 10.3 6 25 20.7 83.3 67
+ 151.7 139 205zm0 0v40h399900v-40z"/></svg></span></span><span style="top:-2.0919em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight x-arrow-pad"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">tens or hundreds of Hz</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6081em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord text"><span class="mord">action</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>Vision 每秒运行几次。</p>
+<p>周期性更新：</p>
+<p>target。</p>
+<p>direction。</p>
+<p>desired speed。</p>
+<p>trajectory。</p>
+<p>task mode。</p>
+<p>constraints。</p>
+<p>Motor policy 则不等待 vision。</p>
+<p>它依靠：</p>
+<p>proprioception。</p>
+<p>force。</p>
+<p>contact。</p>
+<p>local state。</p>
+<p>持续保持身体稳定。</p>
+<p>所以：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">slow global perception / planning</span></span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mrel">↓</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">asynchronous update</span></span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">fast local motor control</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>一句话就是：</p>
+<blockquote>
+<p><strong>Vision should update intent, not clock the body.</strong></p>
+</blockquote>
+<h2 id="s7">2.3 Vision Robustness 的 Paradox</h2>
+<p>如果 camera 看不清，我们怎么办？</p>
+<p>加 camera。</p>
+<p>Head camera。</p>
+<p>Wrist camera。</p>
+<p>End-effector camera。</p>
+<p>External camera。</p>
+<p>这样确实减少了 blind spot。</p>
+<p>但是同时：</p>
+<p>data 更多。</p>
+<p>synchronization 更复杂。</p>
+<p>calibration 更复杂。</p>
+<p>multi-view fusion 更复杂。</p>
+<p>computation 更大。</p>
+<p>latency 也可能更高。</p>
+<p>于是出现了一个 paradox：</p>
+<blockquote>
+<p><strong>为了让 visual control 更可靠，我们反而让整个 robot 更依赖一个越来越复杂的 vision system。</strong></p>
+</blockquote>
+<p>这使我们再次需要问：</p>
+<p>最快的 physical control loop，真的应该依赖整个 system 中最重的 perception module 吗？</p>
+<h2 id="s8">2.4 Training 也许也拆错了</h2>
+<p>今天很多 robot learning 依赖 image 和 video。</p>
+<p>于是很容易形成：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">video</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">visual representation</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord text"><span class="mord">action</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>但 video 最擅长提供的是：</p>
+<p>task structure。</p>
+<p>semantics。</p>
+<p>trajectory。</p>
+<p>timing。</p>
+<p>planning。</p>
+<p>successful behavior。</p>
+<p>它很难直接告诉我们：</p>
+<p>contact force。</p>
+<p>joint torque。</p>
+<p>friction。</p>
+<p>slip。</p>
+<p>compliance。</p>
+<p>actuator saturation。</p>
+<p>disturbance recovery。</p>
+<p>所以可以有一个非常简单的区分：</p>
+<blockquote>
+<p><strong>Video teaches what motion looks like. Interaction teaches how to make it work.</strong></p>
+</blockquote>
+<p>一个很瘦弱的人，不会因为看了一万段跳高视频，就突然跳得很高。</p>
+<p>他当然可以学习姿态。</p>
+<p>学习 trajectory。</p>
+<p>学习 timing。</p>
+<p>但是最后真正的能力还是来自：</p>
+<p>practice。</p>
+<p>failure。</p>
+<p>adjustment。</p>
+<p>和自己的身体、重力以及环境反复 interaction。</p>
+<p>同样，如果我只有一辆 bicycle，却看很多 race-car video，我可以学：</p>
+<p>racing line。</p>
+<p>braking strategy。</p>
+<p>timing。</p>
+<p>但我不会因此真正学会 race car 的 dynamics。</p>
+<p>所以，也许机器人真正的问题并不是：</p>
+<p>data 不够。</p>
+<p>而是：</p>
+<p><strong>training curriculum 可能错了。</strong></p>
+<p>今天常见的隐含 curriculum 是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">large-scale video</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">vision-language understanding</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord text"><span class="mord">action</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>但也许应该是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">local sensing + physical interaction</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">stable motor primitive</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">visual conditioning</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">semantic planning</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>先学怎么动。</p>
+<p>再学 vision 怎样调节动作。</p>
+<p>最后再让 high-level intelligence 选择和组合这些能力。</p>
+<h2 id="s9">2.5 Motor Skill 自己就有 Data</h2>
+<p>Motor skill 并不是 data-poor。</p>
+<p>它自己有大量 sensing。</p>
+<p>Biological system 有：</p>
+<p>proprioception。</p>
+<p>touch。</p>
+<p>joint sensing。</p>
+<p>muscle feedback。</p>
+<p>balance。</p>
+<p>pressure。</p>
+<p>contact。</p>
+<p>slip。</p>
+<p>Robot 有：</p>
+<p>encoder。</p>
+<p>IMU。</p>
+<p>force/torque sensor。</p>
+<p>tactile sensor。</p>
+<p>motor current。</p>
+<p>joint velocity。</p>
+<p>contact signal。</p>
+<p>这些 sensing 对远处 environment 知道得很少。</p>
+<p>但是它对 body dynamics 知道得非常多。</p>
+<p>所以：</p>
+<blockquote>
+<p><strong>Vision is globally rich but dynamically indirect.</strong></p>
+<p><strong>Motor sensing is environmentally narrow but dynamically rich.</strong></p>
+</blockquote>
+<p>对于 narrow motor task，fast sensing 还能产生 dense feedback。</p>
+<p>Dense feedback 就意味着不断 correction。</p>
+<p>所以：</p>
+<blockquote>
+<p><strong>Fast sensing enables fast learning.</strong></p>
+</blockquote>
+<p>对于一些 motor skill：</p>
+<blockquote>
+<p><strong>feedback bandwidth 可能和 offline dataset scale 一样重要。</strong></p>
+</blockquote>
+<hr /><h1 id="s10">三、Biological Perspective：为什么 Intelligence 天然可能是 Asynchronous 的？</h1>
+<p>如果这个 architecture 在 engineering 上合理，那么下一个问题是：</p>
+<p>这只是因为今天 GPU 不够快吗？</p>
+<p>还是背后有更深的原因？</p>
+<h2 id="s11">3.1 Biology 也服从同样的 Physics</h2>
+<p>Biological system 并不是没有 computation cost。</p>
+<p>它同样受到：</p>
+<p>finite energy。</p>
+<p>finite bandwidth。</p>
+<p>signal propagation delay。</p>
+<p>sensor noise。</p>
+<p>limited computation。</p>
+<p>actuator dynamics。</p>
+<p>这些限制。</p>
+<p>Neural signaling 要消耗 energy。</p>
+<p>Long-distance communication 需要时间。</p>
+<p>所以，如果 robot 每一个 motor update 都经过最昂贵的 vision/perception system 很低效，那么 biology 也没有理由天然免疫这种 trade-off。</p>
+<p>因此：</p>
+<blockquote>
+<p><strong>Asynchronous control 也许不是工程妥协，而是 physical constraint 下很自然的 architecture。</strong></p>
+</blockquote>
+<h2 id="s12">3.2 一个新的 Developmental Clue：Brain 本身也许就是 Composite 的</h2>
+<p>2026 年 9 月，一篇发表在 <em>Nature Neuroscience</em> 的研究给出了一个非常有意思的新证据。[15]</p>
+<p>过去一个常见的 developmental model 是：</p>
+<p>早期 embryo 中先出现一种共同的 neural ectoderm progenitor，然后整个 brain 的不同 region 再从这个共同 progenitor 中逐渐分化出来。</p>
+<p>Jokhai、Dundes 等人的研究却支持另一种 model。</p>
+<p>他们对 mouse embryo 进行 lineage tracing，发现：</p>
+<p>在 <strong>gastrulation</strong> 阶段，就已经同时出现两种 parallel brain progenitors。</p>
+<p>其中：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">anterior neural ectoderm</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">forebrain + midbrain</span></span></span></span></span></span></div>
+<p>而：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">posterior neural ectoderm</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">hindbrain</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>两种 cell population 从很早期就是 mutually distinct 的。</p>
+<p>他们进一步利用 human pluripotent stem cells 进行实验，也发现这两类 progenitor 已经对 forebrain/midbrain 或 hindbrain fate 形成 lineage commitment。</p>
+<p>更有意思的是：</p>
+<p>两者拥有明显不同的 <strong>chromatin landscape</strong>。</p>
+<p>也就是说，甚至在最终 brain region 形成以前，它们在 gene-accessibility level 上就已经走上了不同的 developmental path。</p>
+<p>论文作者因此提出：</p>
+<blockquote>
+<p><strong>Brain 也许应该理解成一个由两个 lineage-restricted progenitors 构成的 composite organ。</strong></p>
+</blockquote>
+<p>他们还认为，这种 dual-progenitor organization 可能具有非常古老的 evolutionary conservation。</p>
+<p>这篇文章很容易让人想到我们现在讨论的问题。</p>
+<p>但这里必须非常小心。</p>
+<p>它并没有证明：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">forebrain</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">World Intelligence</span></span></span></span></span></span></div>
+<p>以及：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">hindbrain</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Body Intelligence</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>这不是一一对应关系。</p>
+<p>例如 midbrain 和 forebrain 属于同一个 anterior developmental lineage，但 midbrain 同样参与大量 sensory 和 motor function。</p>
+<p>而我们所谓的 Body Intelligence，也远不止 hindbrain。</p>
+<p>它还包括：</p>
+<p>spinal cord。</p>
+<p>cerebellum。</p>
+<p>autonomic system。</p>
+<p>peripheral circuits。</p>
+<p>等等。</p>
+<p>所以，这篇论文<strong>不是对我们 World Intelligence / Body Intelligence hypothesis 的直接证明。</strong></p>
+<p>但它提供了一个更基础的启发：</p>
+<blockquote>
+<p><strong>我们过去习惯把 brain 想成一个统一 organ，然后在内部产生不同功能；但 brain 本身的 developmental origin 可能就已经是 composite 的。</strong></p>
+</blockquote>
+<p>也就是说：</p>
+<p>complex intelligence 未必需要先有一个 universal processor，然后再在里面分出所有 specialization。</p>
+<p>Evolution 也可能采用另一种方式：</p>
+<p>先形成不同 developmental lineage。</p>
+<p>每一个 lineage 拥有不同的 identity 和 capability。</p>
+<p>然后再把这些 neural systems 集成起来。</p>
+<p>如果把这个思路类比到 AI，就会产生一个很有意思的问题：</p>
+<blockquote>
+<p><strong>为什么 artificial intelligence 一定要先有一个 universal latent model，再要求它学习 perception、world reasoning、body dynamics 和 motor control？</strong></p>
+</blockquote>
+<p>也许另一种 architecture 同样自然：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">multiple learned intelligences</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">specialized development</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">learned integration</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>换句话说：</p>
+<blockquote>
+<p><strong>Composite intelligence 也许并不是 engineering compromise，而可能是一种非常古老的 design principle。</strong></p>
+</blockquote>
+<p>当然，这仍然是 architecture analogy，而不是 biological proof。</p>
+<p>但它让 “Society of Agents” 多了一层非常有意思的 developmental perspective。</p>
+<h2 id="s13">3.3 Vision 是 Far-Field and Predictive</h2>
+<p>Vision 的 latency 为什么可以比较大？</p>
+<p>因为 Vision 和 force sensing 解决的是不同 spatial scale 的问题。</p>
+<p>Vision 本质上是一种：</p>
+<p><strong>far-field、exteroceptive sensing。</strong></p>
+<p>比如一条 fish。</p>
+<p>它用 vision 看到远处的 prey 或 predator。</p>
+<p>Vision 要回答：</p>
+<p>那是什么？</p>
+<p>在哪里？</p>
+<p>往哪里移动？</p>
+<p>我要接近还是逃跑？</p>
+<p>因为那个 object 还没有直接和身体 contact，所以还存在一定 temporal margin。</p>
+<p>Vision 可以花一些时间做 perception 和 prediction。</p>
+<p>这并不一定是 weakness。</p>
+<p>恰恰相反，Vision 最大的价值就是：</p>
+<blockquote>
+<p><strong>在 physical interaction 发生之前，提前提供环境信息。</strong></p>
+</blockquote>
+<p>所以：</p>
+<blockquote>
+<p><strong>Vision is far-field and predictive.</strong></p>
+</blockquote>
+<h2 id="s14">3.4 Force 和 Proprioception 是 Near-Field and Corrective</h2>
+<p>Force、touch、proprioception 几乎正好相反。</p>
+<p>它们很难告诉你：</p>
+<p>十米以外有什么。</p>
+<p>远处有没有 predator。</p>
+<p>前面树林后有什么。</p>
+<p>但它们可以非常精确地告诉你：</p>
+<p>身体是不是倾斜了。</p>
+<p>脚是不是滑了。</p>
+<p>fin 是不是受到 force。</p>
+<p>joint 有没有按照预期运动。</p>
+<p>contact 有没有发生。</p>
+<p>force 是不是突然变大。</p>
+<p>而当这些信息开始重要时：</p>
+<p><strong>physical interaction 通常已经发生。</strong></p>
+<p>这个时候 system 剩下的时间很少。</p>
+<p>所以：</p>
+<blockquote>
+<p><strong>Force sensing is near-field and corrective.</strong></p>
+</blockquote>
+<p>可以写成：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">Vision</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">anticipate the environment</span></span></span></span></span></span></div>
+<p>而：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Force / Proprioception</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">maintain the body</span></span><span class="mord">.</span></span></span></span></span></div>
+<h2 id="s15">3.5 Spatial Bandwidth 与 Temporal Bandwidth</h2>
+<p>这也让我觉得 motor intelligence 在 computational character 上，也许更接近：</p>
+<p><strong>hearing 和 haptics。</strong></p>
+<p>并不是说它们 anatomically 是一个 system。</p>
+<p>而是它们的信息形态相似。</p>
+<p>Sound 一开始是：</p>
+<p>air pressure variation。</p>
+<p>Touch 是：</p>
+<p>force。</p>
+<p>deformation。</p>
+<p>vibration。</p>
+<p>contact。</p>
+<p>这类 signal 往往：</p>
+<p>spatially 比较局部。</p>
+<p>但 temporally 非常 dense。</p>
+<p>Vision 则几乎相反。</p>
+<p>它面对的是一个巨大的 spatial field。</p>
+<p>需要从里面抽取：</p>
+<p>object。</p>
+<p>geometry。</p>
+<p>depth。</p>
+<p>motion。</p>
+<p>semantics。</p>
+<p>context。</p>
+<p>所以也许：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">Vision</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">high spatial dimensionality</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">complex representation</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">higher latency</span></span></span></span></span></span></div>
+<p>而：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Motor / Haptic Sensing</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">fewer structured channels</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">high temporal bandwidth</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">low latency</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>Raw force、vibration 和 tactile sensing，在 engineered robot 上完全可以达到 kHz-scale sampling。</p>
+<p>Motor policy 自己不一定需要以 raw sensor 的最高频率 update。</p>
+<p>但它可以持续从这种高速 mechanical signal 中获得 state。</p>
+<p>所以真正重要的是：</p>
+<blockquote>
+<p><strong>Vision is high-dimensional in space.</strong></p>
+<p><strong>Motor sensing is high-resolution in time.</strong></p>
+</blockquote>
+<h2 id="s16">3.6 World Intelligence 与 Body Intelligence</h2>
+<p>这时，我们可以把这个 architecture 提升到更大的 biological abstraction。</p>
+<p>我说的 “brain”，更接近：</p>
+<p>cortex。</p>
+<p>conscious perception。</p>
+<p>explicit reasoning。</p>
+<p>prediction。</p>
+<p>planning。</p>
+<p>这部分主要面对：</p>
+<p>environment。</p>
+<p>other animals。</p>
+<p>prey。</p>
+<p>predators。</p>
+<p>objects。</p>
+<p>other people。</p>
+<p>future possibilities。</p>
+<p>goals。</p>
+<p>这就是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.5689em;vertical-align:-0.5344em;"></span><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0344em;"><span style="top:-3.5689em;"><span class="pstrut" style="height:3.5689em;"></span><span class="boxpad"><span class="mord"><span class="mord"><span class="mord text"><span class="mord">World Intelligence</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord text"><span class="mord">environment + others + prediction + planning</span></span></span></span></span></span><span style="top:-3.0344em;"><span class="pstrut" style="height:3.5689em;"></span><span class="stretchy fbox" style="height:1.5689em;border-style:solid;border-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5344em;"><span></span></span></span></span></span></span></span></span></span></div>
+<p>而我说的 “spinal system”，并不是狭义 spinal cord。</p>
+<p>而是广义的 subconscious body-control system，包括：</p>
+<p>brainstem。</p>
+<p>spinal cord。</p>
+<p>cerebellar circuits。</p>
+<p>autonomic nervous system。</p>
+<p>local sensorimotor loops。</p>
+<p>peripheral regulatory systems。</p>
+<p>它面对：</p>
+<p>body state。</p>
+<p>posture。</p>
+<p>balance。</p>
+<p>gait。</p>
+<p>swimming。</p>
+<p>contact。</p>
+<p>muscle coordination。</p>
+<p>breathing。</p>
+<p>circulation。</p>
+<p>internal regulation。</p>
+<p>所以：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.5689em;vertical-align:-0.5344em;"></span><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0344em;"><span style="top:-3.5689em;"><span class="pstrut" style="height:3.5689em;"></span><span class="boxpad"><span class="mord"><span class="mord"><span class="mord text"><span class="mord">Body Intelligence</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord text"><span class="mord">body sensing + regulation + dynamics + control</span></span></span></span></span></span><span style="top:-3.0344em;"><span class="pstrut" style="height:3.5689em;"></span><span class="stretchy fbox" style="height:1.5689em;border-style:solid;border-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5344em;"><span></span></span></span></span></span></span></span></span></span></div>
+<p>两者都不是 passive。</p>
+<p>两者都可以 autonomous。</p>
+<h2 id="s17">3.7 Body Intelligence 并不简单</h2>
+<p>保持一个 body 活着并且 stable，本身就是一个极其复杂的问题。</p>
+<p>Heart 有自己的 rhythm，同时接受 broader autonomic modulation。</p>
+<p>Respiration 需要 brainstem、sensory feedback 和 mechanical loop 共同工作。</p>
+<p>Blood circulation 和 pressure 在不断被调节。</p>
+<p>Posture 需要 vestibular、proprioceptive 和 contact information。</p>
+<p>Walking 需要大量 joint 和 muscle coordination。</p>
+<p>Swimming 需要 whole-body rhythm 和 fluid dynamics。</p>
+<p>这些都不是 simple actuator command。</p>
+<p>它们需要：</p>
+<p>state estimation。</p>
+<p>feedback。</p>
+<p>adaptation。</p>
+<p>disturbance rejection。</p>
+<p>coordination。</p>
+<p>prediction。</p>
+<p>所以：</p>
+<blockquote>
+<p><strong>The body has intelligence of its own.</strong></p>
+</blockquote>
+<h2 id="s18">3.8 不是 Smart Brain 控制 Dumb Body</h2>
+<p>真正的 structure 并不是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">smart brain</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">dumb body</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>而更像：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.5689em;vertical-align:-0.5344em;"></span><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0344em;"><span style="top:-3.5689em;"><span class="pstrut" style="height:3.5689em;"></span><span class="boxpad"><span class="mord"><span class="mord"><span class="mord text"><span class="mord">World Intelligence</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">↔</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord text"><span class="mord">Body Intelligence</span></span></span></span></span></span><span style="top:-3.0344em;"><span class="pstrut" style="height:3.5689em;"></span><span class="stretchy fbox" style="height:1.5689em;border-style:solid;border-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5344em;"><span></span></span></span></span></span></span></span></span></span></div>
+<p>World Intelligence 说：</p>
+<blockquote>
+<p>Predator 来了，逃跑。</p>
+</blockquote>
+<p>Body Intelligence 解决：</p>
+<blockquote>
+<p>在当前 water dynamics 下，怎样最快而稳定地 swim。</p>
+</blockquote>
+<p>World Intelligence 说：</p>
+<blockquote>
+<p>走到那棵 tree。</p>
+</blockquote>
+<p>Body Intelligence 解决：</p>
+<blockquote>
+<p>怎样协调 joint、maintain balance、switch gait、recover from disturbance。</p>
+</blockquote>
+<p>World Intelligence 更接近：</p>
+<p>meaning。</p>
+<p>goal。</p>
+<p>prediction。</p>
+<p>strategy。</p>
+<p>Body Intelligence 更接近：</p>
+<p>physics。</p>
+<p>execution。</p>
+<p>stability。</p>
+<p>recovery。</p>
+<h2 id="s19">3.9 Local Motor Circuit 给出的 Biology Clue</h2>
+<p>CPG、spinal locomotor circuit 以及最近 connectome research，都给出一个很有意思的结构线索。</p>
+<p>一个复杂的 perception/decision system，可以和一个小得多的 local motor system 共存。</p>
+<p>可以抽象成：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">complex perception / decision</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">compressed descending condition</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">local motor circuit</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord text"><span class="mord">motion</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>高层决定：</p>
+<p>动不动。</p>
+<p>往哪里动。</p>
+<p>动多快。</p>
+<p>local system 解决：</p>
+<p>动作到底怎样产生。</p>
+<p>怎样稳定。</p>
+<p>怎样 recover。</p>
+<hr /><h1 id="s20">四、这种 Biological Design 对 Engineering 有什么 Advantage？</h1>
+<p>如果上面的理解成立，那么 biology 不只是给我们一个 analogy。</p>
+<p>它可能直接给出一种 engineering architecture。</p>
+<h2 id="s21">4.1 Multi-Rate、Asynchronous Architecture</h2>
+<p>不同 intelligence 没必要共享一个 clock。</p>
+<p>可以是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">World Model / VLM</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">few Hz</span></span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mrel">↓</span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">trajectory / task condition</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord text"><span class="mord">intermediate rate</span></span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mrel">↓</span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0585em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">motor policy</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0585em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mord text"><span class="mord"> Hz or higher</span></span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mrel">↓</span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1141em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">raw force / tactile sensing</span></span><span class="mspace" style="margin-right:1em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0585em;vertical-align:-0.1944em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mord text"><span class="mord"> Hz or higher</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>具体 frequency 取决于 robot。</p>
+<p>真正重要的是：</p>
+<blockquote>
+<p><strong>每一种 intelligence 都运行在适合自己 problem 的 bandwidth 上。</strong></p>
+</blockquote>
+<p>这样做的 advantage 很直接：</p>
+<p>降低 computation。</p>
+<p>降低 latency pressure。</p>
+<p>降低 motor control 对 vision failure 的依赖。</p>
+<p>减少不必要的 high-dimensional data transfer。</p>
+<p>同时让每个 subsystem 更容易 independent optimization。</p>
+<h2 id="s22">4.2 Motor Primitive 不是 Trajectory，而是 Agent</h2>
+<p>Motor primitive 不应该理解成一段 prerecorded trajectory。</p>
+<p>它本身可以是一个 adaptive intelligent system。</p>
+<p>Running Agent 可以自己学习：</p>
+<p>不同 speed。</p>
+<p>不同 slope。</p>
+<p>不同 terrain。</p>
+<p>不同 load。</p>
+<p>不同 disturbance。</p>
+<p>它的问题是：</p>
+<blockquote>
+<p>给定 direction 和 speed，怎样保持 dynamic stability？</p>
+</blockquote>
+<p>High-level 不需要告诉它：</p>
+<p>left hip 多少度。</p>
+<p>right knee 多少度。</p>
+<p>每个 motor torque 是多少。</p>
+<p>High-level 只需要说：</p>
+<p>快一点。</p>
+<p>慢一点。</p>
+<p>往左。</p>
+<p>stop。</p>
+<p>change terrain mode。</p>
+<p>所以：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">World Intelligence</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">condition</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Motor Agent</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">dynamic execution</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>这不是传统的 command。</p>
+<p>而是：</p>
+<blockquote>
+<p><strong>adaptive delegation。</strong></p>
+</blockquote>
+<h2 id="s23">4.3 Hierarchy 是 Information Compression</h2>
+<p>假设 robot 有 <span class="mi"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span></span> 个 actuator。</p>
+<p>如果 central controller 直接控制所有 actuator，就需要：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7144em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7144em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span><span class="mord">.</span></span></span></span></span></div>
+<p>但如果 lower-level agent 已经学会：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">u</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">θ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">s</span><span class="mclose">)</span><span class="mpunct">,</span></span></span></span></span></div>
+<p>那么 high-level 只需要传递：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0935em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:2em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≪</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mord">.</span></span></span></span></span></div>
+<p>这个 <span class="mi"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span></span> 可能只有：</p>
+<p>speed。</p>
+<p>direction。</p>
+<p>goal。</p>
+<p>mode。</p>
+<p>urgency。</p>
+<p>所以 hierarchy 并不只是 organizational convenience。</p>
+<p>它本身就是：</p>
+<blockquote>
+<p><strong>information compression。</strong></p>
+</blockquote>
+<p>Lower-level 越 intelligent，upper-level 需要传递的信息就越少。</p>
+<h2 id="s24">4.4 Skill 可以理解成 Learned Manifold</h2>
+<p>所有可能 motor output 的空间极其巨大。</p>
+<p>但真正 stable、meaningful 的动作只占其中一小部分。</p>
+<p>Walking 只是 joint trajectory space 中很小的一部分。</p>
+<p>Grasping 也是 hand configuration space 中的一个 structured subset。</p>
+<p>Music 同样只是所有 possible waveform 中很小的一部分。</p>
+<p>所以一个 skill 可以理解成：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathcal">M</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⊂</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.14643em;">X</span><span class="mord">.</span></span></span></span></span></div>
+<p>Lower-level Agent 学习这个 manifold。</p>
+<p>它自己的 latent：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.07944em;">Z</span></span></span></span></span></div>
+<p>就像这个 manifold 的 intrinsic coordinates。</p>
+<p>High-level 根本不需要自己 generate high-dimensional motor output。</p>
+<p>它只需要：</p>
+<p>找到 manifold。</p>
+<p>选择 manifold 中合适的 region。</p>
+<p>然后让 lower-level agent 自己执行。</p>
+<h2 id="s25">4.5 Metric 是一种 Indexing Geometry</h2>
+<p>这又引出 metric。</p>
+<p>两个 gait 在 joint space 里可能完全不同。</p>
+<p>但如果都可以稳定地以 <span class="mi"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathrm">m/s</span></span></span></span></span></span> 向前走，对 high-level 来说，它们可能很近。</p>
+<p>反过来，两种 gait 在 joint trajectory 上很像，但一个适合 slope，一个在 slope 上会摔倒。</p>
+<p>那么对 task 来说，它们很远。</p>
+<p>所以：</p>
+<blockquote>
+<p><strong>Distance is task-dependent.</strong></p>
+</blockquote>
+<p>High-level 自然理解的变量可能是：</p>
+<p>speed。</p>
+<p>direction。</p>
+<p>distance。</p>
+<p>terrain。</p>
+<p>target。</p>
+<p>所以 lower-level skill space 应该被这些 high-level meaningful variables 索引。</p>
+<p>于是可以写：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ϕ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mord">.</span></span></span></span></span></div>
+<p>然后：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">desired</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7387em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7387em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6679em;"></span><span class="mord text"><span class="mord">execution</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>所以可以把整个过程概括成：</p>
+<blockquote>
+<p><strong>Pretraining learns the manifold.</strong></p>
+<p><strong>Post-training shapes its metric.</strong></p>
+<p><strong>The metric organizes and indexes the manifold.</strong></p>
+<p><strong>The interface aligns one manifold with another.</strong></p>
+<p><strong>The prompt selects a region or direction.</strong></p>
+<p><strong>The agent executes the trajectory.</strong></p>
+</blockquote>
+<h2 id="s26">4.6 Agent 之间需要的是 Learned Bridge</h2>
+<p>不同 Agent 根本没有必要共享同一个 latent space。</p>
+<p>如果：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.07944em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0794em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></div>
+<p>而：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6891em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.07944em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0794em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span></span></span></span></span></div>
+<p>没有必要要求：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.07944em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0794em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.07944em;">Z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0794em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">.</span></span></span></span></span></div>
+<p>我们只需要学习：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05017em;">B</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">ϕ</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.044em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">A</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">.</span></span></span></span></span></div>
+<p>这个 bridge 可以是：</p>
+<p>adapter。</p>
+<p>projection head。</p>
+<p>small transformer。</p>
+<p>latent translator。</p>
+<p>它的作用不是单纯 format conversion。</p>
+<p>而是：</p>
+<blockquote>
+<p><strong>representation alignment。</strong></p>
+</blockquote>
+<p>真正重要的是：</p>
+<p>一个 intelligence 怎样把另一个 intelligence 需要的信息压缩并传递过去。</p>
+<p>而 receiving agent 自己足够 intelligent，所以它并不需要 upper-level 解释所有细节。</p>
+<hr /><h1 id="s27">五、Current AI Trend 与这个想法是什么关系？</h1>
+<p>这个 framework 并不是在反对 VLM、VLA 或 World Model。</p>
+<p>它真正问的是：</p>
+<p><strong>这些 model 应该放在 architecture 的哪里？</strong></p>
+<h2 id="s28">5.1 VLM / VLA</h2>
+<p>VLM 非常擅长：</p>
+<p>scene understanding。</p>
+<p>object recognition。</p>
+<p>semantic reasoning。</p>
+<p>task interpretation。</p>
+<p>goal selection。</p>
+<p>high-level planning。</p>
+<p>这些能力非常重要。</p>
+<p>它们天然属于：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">World Intelligence</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>所以问题不是：</p>
+<p>VLM 有没有用？</p>
+<p>当然有。</p>
+<p>问题是：</p>
+<blockquote>
+<p><strong>VLM 是否应该直接拥有最快的 motor loop？</strong></p>
+</blockquote>
+<p>我们的答案更接近：</p>
+<p>不一定。</p>
+<p>更自然的是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">VLM</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">goal / condition / plan</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8095em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">motor agent</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">fast execution</span></span><span class="mord">.</span></span></span></span></span></div>
+<h2 id="s29">5.2 World Model</h2>
+<p>最近 embodied AI 领域越来越重视：</p>
+<p>World Model。</p>
+<p>World Action Model。</p>
+<p>Predictive Model。</p>
+<p>这是一个非常重要的趋势。</p>
+<p>VLM 更容易回答：</p>
+<blockquote>
+<p>世界现在是什么？</p>
+</blockquote>
+<p>World Model 希望进一步回答：</p>
+<blockquote>
+<p><strong>如果我做这个 action，接下来会发生什么？</strong></p>
+</blockquote>
+<p>它可以加强：</p>
+<p>physical reasoning。</p>
+<p>prediction。</p>
+<p>counterfactual simulation。</p>
+<p>long-horizon planning。</p>
+<p>environment dynamics understanding。</p>
+<p>所以，从这个 framework 看：</p>
+<blockquote>
+<p><strong>World Model 是更强的 World Intelligence。</strong></p>
+</blockquote>
+<p>它可以：</p>
+<p>imagine future state。</p>
+<p>compare alternatives。</p>
+<p>plan farther ahead。</p>
+<p>但是：</p>
+<p><strong>这并没有自动解决 Body Intelligence 的问题。</strong></p>
+<p>甚至 world-model rollout 越复杂：</p>
+<p>reasoning time 可能越长。</p>
+<p>compute 可能越高。</p>
+<p>所以：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">World Model / VLM</span></span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">understand + predict + plan</span></span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mrel">↓</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">slow asynchronous condition</span></span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Body Intelligence / Motor Agent</span></span></span></span></span></span></div>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">fast sensing + dynamic control</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>World Model 可以预测：</p>
+<p>地面可能很滑。</p>
+<p>一个 object 几秒后会掉下来。</p>
+<p>某条 route 会 collision。</p>
+<p>但当：</p>
+<p><strong>脚真的开始滑的时候，</strong></p>
+<p>local motor system 还是必须立即 react。</p>
+<p>所以：</p>
+<blockquote>
+<p><strong>A better brain does not eliminate the need for a spinal cord.</strong></p>
+</blockquote>
+<p>真正的问题不是：</p>
+<blockquote>
+<p>VLM 还是 World Model？</p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p><strong>无论是 VLM 还是 World Model，它应该怎样和 autonomous Body Intelligence 合作？</strong></p>
+</blockquote>
+<h2 id="s30">5.3 其实很多 Pieces 已经存在</h2>
+<p>现在 robotics 中已经有很多方向，在不同层面上接近这个思想：</p>
+<p>hierarchical reinforcement learning。</p>
+<p>options。</p>
+<p>temporal abstraction。</p>
+<p>central pattern generators。</p>
+<p>dynamical movement primitives。</p>
+<p>latent skill space。</p>
+<p>proprioceptive locomotion。</p>
+<p>rapid motor adaptation。</p>
+<p>vision-conditioned locomotion。</p>
+<p>language-conditioned motor primitives。</p>
+<p>skill embedding。</p>
+<p>所以，我们并不是说：</p>
+<p>没有人做 hierarchy。</p>
+<p>而是：</p>
+<blockquote>
+<p><strong>很多现在被当成独立 engineering technique 的东西，也许其实都属于同一个更深的 architecture principle。</strong></p>
+</blockquote>
+<p>这个 principle 是：</p>
+<p>不同 intelligence 应该根据：</p>
+<p>不同 sensing modality。</p>
+<p>不同 timescale。</p>
+<p>不同 latent space。</p>
+<p>不同 control responsibility。</p>
+<p>进行 specialization。</p>
+<p>而彼此之间通过 learned interface 做 alignment。</p>
+<p>2026 年关于 two parallel brain progenitors 的 developmental result 又提供了一个非常有意思的 biology parallel：</p>
+<p><strong>甚至一个最终表现为统一 brain 的 system，也可能从很早期就由不同 neural lineage 并行形成，再被整合起来。</strong> [15]</p>
+<p>这并不能直接告诉我们 AI 应该怎么 architect。</p>
+<p>但它至少提醒我们：</p>
+<p><strong>unity of behavior 并不意味着 unity of developmental origin，也不意味着 unity of internal architecture。</strong></p>
+<h2 id="s31">5.4 Society of Agents</h2>
+<p>这样重新回头看 Minsky：</p>
+<p>他的核心 insight 也许并没有错。</p>
+<p>Intelligence 可能真的像一个 society。</p>
+<p>但今天 Society 的 member 不再是：</p>
+<p>一条 symbolic rule。</p>
+<p>一个简单 module。</p>
+<p>而可以是一个完整的 learned intelligence。</p>
+<p>Vision Agent 负责理解 visible environment。</p>
+<p>World Model Agent 负责预测 future。</p>
+<p>Language Agent 负责 semantic reasoning。</p>
+<p>Locomotion Agent 负责 stable movement。</p>
+<p>Manipulation Agent 负责 contact-rich dynamics。</p>
+<p>Tactile Agent 负责 high-bandwidth local correction。</p>
+<p>Autonomic Agent 负责 internal regulation。</p>
+<p>每一个 Agent 都可以拥有自己的：</p>
+<p>representation。</p>
+<p>sensor modality。</p>
+<p>training data。</p>
+<p>timescale。</p>
+<p>computational architecture。</p>
+<p>它们不需要共享一种 internal language。</p>
+<p>它们只需要：</p>
+<p><strong>学会合作。</strong></p>
+<hr /><h1 id="s32">结论</h1>
+<p>Deep learning 教会我们：</p>
+<p>intelligence 不应该被人工拆成一堆 rigid symbolic rule。</p>
+<p>但这并不意味着：</p>
+<p>所有 intelligence 都应该进入同一个 model。</p>
+<p>使用同一个 representation。</p>
+<p>运行在同一个 frequency。</p>
+<p>World Intelligence 面对的是：</p>
+<p>environment。</p>
+<p>other agents。</p>
+<p>prediction。</p>
+<p>planning。</p>
+<p>Body Intelligence 面对的是：</p>
+<p>body state。</p>
+<p>homeostasis。</p>
+<p>dynamics。</p>
+<p>contact。</p>
+<p>posture。</p>
+<p>execution。</p>
+<p>Vision 是：</p>
+<p>far-field。</p>
+<p>spatially rich。</p>
+<p>predictive。</p>
+<p>World Model 是：</p>
+<p>future-oriented。</p>
+<p>reasoning-heavy。</p>
+<p>Motor sensing 是：</p>
+<p>near-field。</p>
+<p>mechanical。</p>
+<p>temporally dense。</p>
+<p>corrective。</p>
+<p>Body control 是：</p>
+<p>fast。</p>
+<p>local。</p>
+<p>closed-loop。</p>
+<p>现在 developmental biology 又给出了另一个值得重视的线索：</p>
+<p><strong>brain 本身也可能不是由一个统一 neural progenitor 逐步分化而来，而是由至少两条 parallel、lineage-restricted developmental pathway 共同组成。</strong> [15]</p>
+<p>这当然不等于：</p>
+<p>AI 必须有两个 model。</p>
+<p>也不等于：</p>
+<p>forebrain 就是 World Intelligence、hindbrain 就是 Body Intelligence。</p>
+<p>但它至少削弱了一个很自然却未必正确的直觉：</p>
+<blockquote>
+<p><strong>一个统一 functioning intelligence，就必须来自一个统一 computational architecture。</strong></p>
+</blockquote>
+<p>也许并不是。</p>
+<p>未来 embodied AI 也许不是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">one model</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">one representation</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">one clock</span></span><span class="mord">.</span></span></span></span></span></div>
+<p>而是：</p>
+<div class="mb"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.5689em;vertical-align:-0.5344em;"></span><span class="mord"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0344em;"><span style="top:-3.5689em;"><span class="pstrut" style="height:3.5689em;"></span><span class="boxpad"><span class="mord"><span class="mord"><span class="mord text"><span class="mord">many intelligences</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">many representations</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord text"><span class="mord">many timescales</span></span></span></span></span></span><span style="top:-3.0344em;"><span class="pstrut" style="height:3.5689em;"></span><span class="stretchy fbox" style="height:1.5689em;border-style:solid;border-width:0.04em;"></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5344em;"><span></span></span></span></span></span></span></span></span></span></div>
+<p>World Intelligence 问：</p>
+<blockquote>
+<p><strong>外面的世界正在发生什么？接下来会发生什么？我要怎样处理？</strong></p>
+</blockquote>
+<p>Body Intelligence 问：</p>
+<blockquote>
+<p><strong>我的身体正在发生什么？怎样保持稳定？怎样把任务真正做出来？</strong></p>
+</blockquote>
+<p>两者之间通过：</p>
+<p>compact condition。</p>
+<p>learned interface。</p>
+<p>representation alignment。</p>
+<p>prediction。</p>
+<p>delegation。</p>
+<p>进行合作。</p>
+<p>High-level 负责：</p>
+<p>intent。</p>
+<p>goal。</p>
+<p>planning。</p>
+<p>Low-level 负责：</p>
+<p>physics。</p>
+<p>execution。</p>
+<p>stability。</p>
+<p>recovery。</p>
+<p>这不是 continuous micromanagement。</p>
+<p>而是：</p>
+<blockquote>
+<p><strong>adaptive delegation。</strong></p>
+</blockquote>
+<p>所以未来真正的问题也许已经不是：</p>
+<blockquote>
+<p><strong>How large should intelligence be?</strong></p>
+</blockquote>
+<p>而是：</p>
+<blockquote>
+<p><strong>What kind of intelligence belongs at each spatial and temporal scale, and how should these intelligences cooperate?</strong></p>
+</blockquote>
+<p>Minsky 把它叫作：</p>
+<p><strong>The Society of Mind。</strong></p>
+<p>而对于今天的 embodied AI，也许一个更适合的名字是：</p><div class="closing"><p class="h"><strong>The Society of Agents</strong></p><p>一个由许多 autonomous learned intelligences 组成的 society。</p>
+<p>每一个 Agent 都在最适合自己的 spatial scale、temporal scale 和 information space 上工作。</p>
+<p>完整的 intelligence，不来自一个 system 对所有细节的控制。</p>
+<p>而来自：</p>
+<p><strong>specialization、alignment、prediction、communication 与 adaptive delegation。</strong></p></div><h1 id="s33">参考文献</h1>
+<ol>
+<li>Minsky, M. <em>The Society of Mind</em>. 1986.  </li>
+<li>Sutton, R. S., Precup, D., &amp; Singh, S. “Between MDPs and Semi-MDPs: A Framework for Temporal Abstraction in Reinforcement Learning.” <em>Artificial Intelligence</em>, 1999.  </li>
+<li>Ijspeert, A. J. et al. “Dynamical Movement Primitives: Learning Attractor Models for Motor Behaviors.” <em>Neural Computation</em>, 2013.  </li>
+<li>Kiehn, O. “Decoding the Organization of Spinal Circuits That Control Locomotion.” <em>Nature Reviews Neuroscience</em>, 2016.  </li>
+<li>Guertin, P. A. “Central Pattern Generator for Locomotion.” <em>Frontiers in Neurology</em>, 2013.  </li>
+<li>Minassian, K. et al. “The Human Central Pattern Generator for Locomotion.” <em>The Neuroscientist</em>, 2017.  </li>
+<li>Jain, D., Caluwaerts, K., &amp; Iscen, A. “From Pixels to Legs: Hierarchical Learning of Quadruped Locomotion.” CoRL, 2021.  </li>
+<li>Kumar, A. et al. “RMA: Rapid Motor Adaptation for Legged Robots.” RSS, 2021.  </li>
+<li>Miki, T. et al. “Learning Robust Perceptive Locomotion for Quadrupedal Robots in the Wild.” <em>Science Robotics</em>, 2022.  </li>
+<li>Tang, C. et al. “SayTap: Language to Quadrupedal Locomotion.” CoRL, 2023.  </li>
+<li>Assran, M. et al. “V-JEPA 2: Self-Supervised Video Models Enable Understanding, Prediction and Planning.” 2025.  </li>
+<li>NVIDIA. “Cosmos World Foundation Model Platform for Physical AI.” 2025.  </li>
+<li>Reuss, M. “Pretrained to Imagine, Fine-Tuned to Act: The Rise of World-Action Models.” NVIDIA Seattle Robotics Lab, 2026.  </li>
+<li>Lin, A. et al. “Network Statistics of the Whole-Brain Connectome of Drosophila.” <em>Nature</em>, 2024.  </li>
+<li>Jokhai, R. T., Dundes, C. E., et al. “Two Parallel Neural Ectoderm Progenitors Contribute to the Developing Brain.” <em>Nature Neuroscience</em>, September 18, 2026.</li>
+</ol>
+  </article>
+  <footer>
+    <a href="https://fangde.github.io/society-of-agents/">English version →</a><br>
+    本文为中文版；英文版是独立并行的另一篇。
+  </footer>
+</div>
 </body>
 </html>
